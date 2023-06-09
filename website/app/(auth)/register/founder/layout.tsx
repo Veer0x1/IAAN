@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator"
 import { Icons } from "@/components/icons"
 
 export const metadata: Metadata = {
-  title: "Investor form",
+  title: "Founder form",
 }
 
 interface SettingsLayoutProps {
