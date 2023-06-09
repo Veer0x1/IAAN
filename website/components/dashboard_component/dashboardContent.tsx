@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import  Image  from 'next/image';
-export function RecentSales() {
+export function DashboardContent() {
   return (<>
     <Card className="lg:col-span-3">
               <CardHeader>

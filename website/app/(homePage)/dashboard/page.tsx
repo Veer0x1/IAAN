@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { RecentSales } from "@/components/dashboard_component/recent-sales"
+import { DashboardContent } from "@/components/dashboard_component/dashboardContent"
 const page = () => {
   return (
     <>
@@ -26,7 +26,7 @@ const page = () => {
         </TabsList>
         <TabsContent value="profile" className="space-y-4">
           <div className="grid lg:grid-cols-4 gap-4 grid-cols-1">
-                <RecentSales />
+                <DashboardContent />
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
