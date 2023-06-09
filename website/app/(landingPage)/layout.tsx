@@ -43,7 +43,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
                 <DropdownMenuGroup>
                   <DropdownMenuItem>
                     {/*<User className="mr-2 h-4 w-4" />*/}
-                    <span>Join as Founder</span>
+                   <Link href={"/register/founder"}><span>Join as Founder</span></Link> 
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
