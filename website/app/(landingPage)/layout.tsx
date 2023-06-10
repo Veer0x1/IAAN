@@ -17,7 +17,7 @@ import { SiteFooter } from "@/components/site-footer"
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="container z-40 bg-background">
+      <header className="bg-background container z-40">
         <div className="flex h-20 items-center justify-between py-6">
           <MainNav items={landingPageConfig.mainNav} />
           <nav className="flex align-middle">

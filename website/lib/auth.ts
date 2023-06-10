@@ -11,9 +11,9 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
-  session: {
-    strategy: "jwt",
-  },
+  // session: {
+  //   strategy: "jwt",
+  // },
   callbacks: {
     // jwt: async function ({ token, user }) {
     //   // once the user get successfully authenticated this callback will be called and passed token and user object

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode
-  session: any
+  session: never
 }
 
 // @ts-ignore
@@ -41,8 +41,9 @@ export default function RootLayout({ children, session }: RootLayoutProps) {
         </head>
         <body
           className={cn(
-            "min-h-screen bg-background font-sans antialiased",
+            "bg-background min-h-screen font-sans antialiased",
             fontSans.variable
+            // fontHeading.variable
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
