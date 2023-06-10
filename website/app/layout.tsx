@@ -37,11 +37,11 @@ export default function RootLayout({ children, session }: RootLayoutProps) {
     <>
       <html lang="en" suppressHydrationWarning>
         <head>
-          <title>IIT BHU Alumni Angel Network</title>
+          <title>IAAN</title>
         </head>
         <body
           className={cn(
-            "bg-background min-h-screen font-sans antialiased",
+            "min-h-screen bg-background font-sans antialiased",
             fontSans.variable
             // fontHeading.variable
           )}

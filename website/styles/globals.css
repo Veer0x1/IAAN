@@ -69,7 +69,27 @@
     --radius: 0.5rem;
   }
 }
+@layer utilities {
+  @layer responsive {
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
 
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  }
+}
+
+html.todesktop-platform-darwin.dark main.bg-default{
+  background: rgba(0,0,0,0.6) !important
+}
+
+html.todesktop-platform-darwin.light main.bg-default{
+  background: rgba(255,255,255,0.8) !important
+}
 @layer base {
   * {
     @apply border-border;
