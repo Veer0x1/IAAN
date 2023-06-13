@@ -1,8 +1,10 @@
 "use client"
 
 import React, { FunctionComponent } from "react"
+import { db } from "@/firebase/config"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { countries } from "countries-list"
+import { addDoc, collection, doc, setDoc } from "firebase/firestore"
 import { Check, ChevronDown, ChevronsUpDown } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -68,15 +70,18 @@ const investorFormSchema = z.object({
 type FormValues = z.infer<typeof investorFormSchema>
 
 const sectors = [
-  { label: "FinTech", value: "fintech" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
+  { label: "Health Care", value: "Health Care" },
+  { label: "Agriculture", value: "Agriculture" },
+  { label: "Real Estate", value: "Real Estate" },
+  { label: "FinTech", value: "FinTech" },
+  { label: "Retail", value: "Retail" },
+  { label: "E-Commerce", value: "E-Commerce" },
+  { label: "EdTech", value: "EdTech" },
+  { label: "BioTech", value: "BioTech" },
+  { label: "Logistics", value: "Logistics" },
+  { label: "Analytics", value: "Analytics" },
+  { label: "AI", value: "AI" },
+  { label: "IoT", value: "IoT" },
 ] as const
 
 const InvestorForm: FunctionComponent<Props> = () => {
@@ -90,7 +95,12 @@ const InvestorForm: FunctionComponent<Props> = () => {
   })
 
   const countryOptions = Object.values(countries)
+
+
   const onSubmit = (data: FormValues) => {
+    const collectionRef = collection(db,"investors")
+    addDoc(collectionRef, data)
+
     toast({
       title: "You submitted the following values:",
       description: (
@@ -216,9 +226,10 @@ const InvestorForm: FunctionComponent<Props> = () => {
                           </SelectTrigger>
                           <SelectContent>
                             <ScrollArea className={"h-72 w-48"}>
-                              {countryOptions.map((country,index) => {
+                              {countryOptions.map((country, index) => {
                                 return (
-                                  <SelectItem key={index}
+                                  <SelectItem
+                                    key={index}
                                     value={`+${country?.phone} ${country?.name}`}
                                   >
                                     {`+${country?.phone}`} {country?.name}
