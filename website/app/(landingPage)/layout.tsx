@@ -1,7 +1,9 @@
 import Link from "next/link"
+import { useSession } from "next-auth/react"
 
 import { landingPageConfig } from "@/config/landingPage"
 import { cn } from "@/lib/utils"
+import NavbarAction from "@/components/ui/NavbarAction"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -17,43 +19,11 @@ import { SiteFooter } from "@/components/site-footer"
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="bg-background container z-40">
+      <header className="container z-40 bg-background">
         <div className="flex h-20 items-center justify-between py-6">
           <MainNav items={landingPageConfig.mainNav} />
-          <nav className="flex align-middle">
-            <Link
-              href={"/login"}
-              className={cn(
-                buttonVariants({ variant: "default", size: "sm" }),
-                "mr-4 px-4"
-              )}
-            >
-              Login
-            </Link>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size={"sm"}>
-                  Join Us
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="mt-1.5 w-auto">
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Link href={"/register/founder"}>
-                      <span>Join as Founder</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    {/*<User className="mr-2 h-4 w-4" />*/}
-                    <Link href={"/register/investor"}>
-                      <span>Join as Investor</span>
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </nav>
+          <nav className="flex align-middle"></nav>
+          <NavbarAction />
         </div>
       </header>
       {/*<Separator />*/}
