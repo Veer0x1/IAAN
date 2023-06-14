@@ -69,7 +69,7 @@ export default function UserLoginForm() {
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Log In</CardTitle>
         <CardDescription>
-          Enter your email and password below to login
+          Enter your email to sign in to your account
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
@@ -93,10 +93,6 @@ export default function UserLoginForm() {
                   {errors.email.message}
                 </p>
               )}
-              <Label htmlFor="password" className={"m-1 text-sm font-light"}>
-                Password
-              </Label>
-              <Input id="password" type="password" />
             </div>
           </div>
 
@@ -104,7 +100,7 @@ export default function UserLoginForm() {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Log In
+            Sign In with Email
           </Button>
         </form>
         <div className="relative">
