@@ -19,8 +19,8 @@ export function DashboardContent() {
         </CardHeader>
         <CardContent>
           <div className="space-y-8">
-            <div className=" grid lg:grid-cols-10 grid-cols-1 gap-3 ">
-              <div className="col-span-2 w-[120%]  sm:w-[110%] lg:w-[100%] border-b-2 lg:border-b-0 p-4 lg:border-r-2 h-[100%] grid justify-items-center items-center">
+            <div className=" grid grid-cols-1 gap-3 lg:grid-cols-10 ">
+              <div className="col-span-2 grid  h-[100%] w-[120%] items-center justify-items-center border-b-2 p-4 sm:w-[110%] lg:w-[100%] lg:border-b-0 lg:border-r-2">
                 <Image
                   src={AvatarPhoto}
                   alt="Profile_photo"
@@ -30,7 +30,7 @@ export function DashboardContent() {
                 />
               </div>
 
-              <div className="col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-start items-center ">
+              <div className="col-span-8 grid grid-cols-1 items-center justify-items-start sm:grid-cols-2 lg:grid-cols-3 ">
                 <div>Gender: male</div>
                 <div>Linkedin id: rahulxyz</div>
 

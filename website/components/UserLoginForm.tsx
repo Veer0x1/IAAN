@@ -112,7 +112,7 @@ export default function UserLoginForm() {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background text-muted-foreground px-2">
+            <span className="bg-background px-2 text-muted-foreground">
               Or continue with
             </span>
           </div>
@@ -141,7 +141,7 @@ export default function UserLoginForm() {
         <p
           className={cn(
             buttonVariants({ variant: "link" }),
-            "text-muted-foreground hover:text-accent-foreground px-8 text-center text-xs"
+            "px-8 text-center text-xs text-muted-foreground hover:text-accent-foreground"
           )}
         >
           <Link
