@@ -1,7 +1,9 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
+import { getServerSession } from "next-auth/next"
 
 import { siteConfig } from "@/config/site"
+import { authOptions } from "@/lib/auth"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
@@ -28,11 +30,11 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode
-  session: never
 }
 
 // @ts-ignore
-export default function RootLayout({ children, session }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const session = await getServerSession(authOptions)
   return (
     <>
       <html lang="en" suppressHydrationWarning>
