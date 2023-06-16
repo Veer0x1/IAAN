@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
 
