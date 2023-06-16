@@ -1,14 +1,7 @@
 import * as process from "process"
 import { db, firestore } from "@/firebase/config"
 import { FirestoreAdapter } from "@next-auth/firebase-adapter"
-import {
-  addDoc,
-  collection,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore"
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore"
 import { NextAuthOptions } from "next-auth"
 import EmailProvider from "next-auth/providers/email"
 import LinkedInProvider from "next-auth/providers/linkedin"
@@ -122,7 +115,7 @@ export const authOptions: NextAuthOptions = {
       }
       return session
     },
-    redirect: async ({ url, baseUrl }) => {
+    redirect: async ({ baseUrl }) => {
       return baseUrl
     },
   },

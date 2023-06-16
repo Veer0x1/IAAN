@@ -1,6 +1,6 @@
 "use client"
 
-import { FormEvent, useState } from "react"
+import { FormEvent } from "react"
 import WizardLayout from "@/layout/WizardLayout"
 import { FormValues, investorFormSchema } from "@/schema/investorFormSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
