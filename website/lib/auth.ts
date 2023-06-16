@@ -20,10 +20,12 @@ const postmarkClient = new Client(process.env.POSTMARK_API_TOKEN!)
 
 export const authOptions: NextAuthOptions = {
   adapter: FirestoreAdapter(firestore),
+
   providers: [
     LinkedInProvider({
       clientId: process.env.LINKEDIN_CLIENT_ID!,
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true,
     }),
     EmailProvider({
       server: {
