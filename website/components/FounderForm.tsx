@@ -41,7 +41,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/react-hook-form/form"
-
+import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
+import { collection,doc } from "firebase/firestore";
+import { db } from "@/firebase/config"
 interface OwnProps {}
 type Props = OwnProps
 const founderFormSchema = z.object({
@@ -76,7 +78,7 @@ const founderFormSchema = z.object({
     .nonempty({ message: "Website name is required" })
     .url({ message: "Invalid  URL" }),
 })
-type FormType = z.infer<typeof founderFormSchema>
+ export type FormType = z.infer<typeof founderFormSchema>
 const countryOptions = Object.values(countries)
 const sectors = [
   { label: "FinTech", value: "fintech" },
@@ -91,6 +93,7 @@ const sectors = [
 ] as const
 
 const FounderForm: FunctionComponent<Props> = () => {
+  const [customId,setCustomId] = React.useState("1234599");
   const form = useForm<FormType>({
     resolver: zodResolver(founderFormSchema),
     mode: "onBlur",
@@ -99,15 +102,34 @@ const FounderForm: FunctionComponent<Props> = () => {
       countryCode: "+91 India",
     },
   })
+  
+    let ref = doc(collection(db, "founders"), customId);
+    const mutation = useFirestoreDocumentMutation(ref);
+     
   const onSubmit = (data: FormType) => {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+    setCustomId(data.firstName + data.phone);
+    mutation.mutate(data,  {
+      onSuccess() {
+          toast({
+              title: "Document added!"})
+      },
+      onError() {
+          toast({
+              title: "Failed to add document!"})
+      },
+    
+      
     })
+    
+    
+    // toast({
+    //   title: "You submitted the following values:",
+    //   description: (
+    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    //     </pre>
+    //   ),
+    // })
   }
   return (
     <>
