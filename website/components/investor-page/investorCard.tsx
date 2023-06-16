@@ -27,18 +27,18 @@ type Props = OwnProps
 export const InvestorCard: FunctionComponent<Props> = (props: Props) => {
   
   return (
-    <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 justify-items-center">
+    <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {
        props.detail?.map((data,index)=>{
         return(
           <Card className="w-60 " key={index}>
           <CardContent>
-            <div className="flex justify-center -mx-5 mt-2">
+            <div className="-mx-5 mt-2 flex justify-center">
               <Image
                 src={defaultImage}
                 alt="defaultImage"
                 priority={true}
-                className="w-[10rem] h-[10rem] "
+                className="h-[10rem] w-[10rem] "
               />
             </div>
             <Separator className="mt-2" />

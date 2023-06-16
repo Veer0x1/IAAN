@@ -28,15 +28,15 @@ const NavbarAction: FunctionComponent<Props> = (props) => {
         <UserNav />
       ) : (
         <div>
-          <Link
-            href={"/login"}
-            className={cn(
-              buttonVariants({ variant: "default", size: "sm" }),
-              "mr-4 px-4"
-            )}
+          <Button
+            variant={"default"}
+            size={"sm"}
+            className={"mr-4 px-4"}
+            disabled={status === "loading"}
           >
-            Login
-          </Link>
+            <Link href={"/login"}>Login</Link>
+          </Button>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button

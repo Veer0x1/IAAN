@@ -83,7 +83,7 @@ const InvestorPage: FunctionComponent<Props> = (props) => {
       <div
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "max-w-max text-lg text-emphasis font-medium mt-4 mb-4"
+          "text-emphasis my-4 max-w-max text-lg font-medium"
         )}
       >
         All Investors

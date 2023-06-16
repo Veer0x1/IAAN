@@ -1,22 +1,71 @@
-import { db } from "@/firebase/config"
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore"
+import * as process from "process"
+import { db, firestore } from "@/firebase/config"
+import { FirestoreAdapter } from "@next-auth/firebase-adapter"
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore"
 import { NextAuthOptions } from "next-auth"
+import EmailProvider from "next-auth/providers/email"
 import LinkedInProvider from "next-auth/providers/linkedin"
+import { Client } from "postmark"
+
+import { siteConfig } from "@/config/site"
+
+const postmarkClient = new Client(process.env.POSTMARK_API_TOKEN!)
 
 export const authOptions: NextAuthOptions = {
+  adapter: FirestoreAdapter(firestore),
+
   providers: [
     LinkedInProvider({
       clientId: process.env.LINKEDIN_CLIENT_ID!,
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true,
+    }),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM,
+      sendVerificationRequest: async ({ identifier, url, provider }) => {
+        const querySnapshot = await getDocs(
+          query(collection(db, "users"), where("email", "==", identifier))
+        )
+        const dbUser = querySnapshot.docs[0]
+
+        const templateId = dbUser?.data()?.emailVerified
+          ? process.env.POSTMARK_SIGN_IN_TEMPLATE
+          : process.env.POSTMARK_ACTIVATION_TEMPLATE
+        if (!templateId) {
+          throw new Error("Missing template id")
+        }
+
+        const result = await postmarkClient.sendEmailWithTemplate({
+          TemplateId: parseInt(templateId),
+          To: identifier,
+          From: provider.from as string,
+          TemplateModel: {
+            action_url: url,
+            product_name: siteConfig.name,
+            name: dbUser?.data()?.name,
+          },
+          Headers: [
+            {
+              // Set this to prevent Gmail from threading emails.
+              // See https://stackoverflow.com/questions/23434110/force-emails-not-to-be-grouped-into-conversations/25435722.
+              Name: "X-Entity-Ref-ID",
+              Value: new Date().getTime() + "",
+            },
+          ],
+        })
+
+        if (result.ErrorCode) {
+          throw new Error(result.Message)
+        }
+      },
     }),
   ],
   pages: {
@@ -33,8 +82,8 @@ export const authOptions: NextAuthOptions = {
 
       const querySnapshot = await getDocs(
         query(collection(db, "users"), where("email", "==", token.email))
-      );
-      const dbUser = querySnapshot.docs[0];
+      )
+      const dbUser = querySnapshot.docs[0]
       // checking if the user is already present in the database
       // if not present then we will add the user to the database
       if (!dbUser.exists()) {
@@ -43,6 +92,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name,
           email: user.email,
           image: user.image,
+          emailVerified: true,
         })
 
         if (user) {
@@ -65,9 +115,8 @@ export const authOptions: NextAuthOptions = {
       }
       return session
     },
-    redirect:async ({ url, baseUrl }) => {
+    redirect: async ({ baseUrl }) => {
       return baseUrl
-    }
+    },
   },
-  
 }

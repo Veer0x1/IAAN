@@ -1,18 +1,5 @@
-import Link from "next/link"
-import { useSession } from "next-auth/react"
-
 import { landingPageConfig } from "@/config/landingPage"
-import { cn } from "@/lib/utils"
 import NavbarAction from "@/components/ui/NavbarAction"
-import { Button, buttonVariants } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { MainNav } from "@/components/main-nav"
 import { SiteFooter } from "@/components/site-footer"
 
@@ -26,7 +13,6 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
           <NavbarAction />
         </div>
       </header>
-      {/*<Separator />*/}
       <main className="flex-1">{children}</main>
       <SiteFooter />
     </div>

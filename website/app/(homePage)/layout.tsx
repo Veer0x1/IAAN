@@ -16,7 +16,7 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex h-16 items-center px-4">
         {/* <TeamSwitcher /> */}
         <Link href="/" className="hidden items-center space-x-2 md:flex">
-    <Icons.logo className={"w-6 h-6"} />
+    <Icons.logo className={"h-6 w-6"} />
     <span className="hidden font-bold sm:inline-block">
       IAAN
     </span>
