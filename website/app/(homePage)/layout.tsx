@@ -5,11 +5,15 @@ import { Search } from "@/components/dashboard_component/search"
 import { UserNav } from "@/components/dashboard_component/user-nav"
 import Link from "next/link"
 import { Icons } from "@/components/icons"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/lib/auth"
+import Provider from "@/app/(homePage)/Provider"
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Example dashboard app using the components.",
 }
-const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
+     async function Dashboardlayout({ children }: { children: React.ReactNode }){
+  const session = await getServerSession(authOptions)
   return (
     <> <div className=" flex-col md:flex">
     <header className="border-b">
@@ -28,7 +32,12 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
     </header>
-    <main>{children}</main>
+   
+      <Provider session={session}>
+              <main>
+            {children}
+            </main>
+            </Provider>
     
   </div>
     </>

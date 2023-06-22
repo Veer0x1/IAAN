@@ -73,7 +73,7 @@ export default function UserRegisterForm() {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        {/* <form onSubmit={handleSubmit(onSubmit)}> */}
           <div className="grid gap-2">
             <div className={"grid gap-1"}>
               <Label htmlFor="username" className={"m-1 text-sm font-light"}>
@@ -111,13 +111,13 @@ export default function UserRegisterForm() {
             </div>
           </div>
 
-          <Button type={"submit"} className="mt-4 w-full" disabled={isLoading}>
+          {/* <Button type={"submit"} className="mt-4 w-full" disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
             Create account
-          </Button>
-        </form>
+          </Button> */}
+        {/* </form> */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />

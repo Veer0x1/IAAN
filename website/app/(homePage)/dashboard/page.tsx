@@ -1,4 +1,8 @@
-import React from 'react'
+"use client"
+import React,{useState} from 'react'
+
+import { useSession} from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { DollarSign, Users } from "lucide-react"
 import {
   Card,
@@ -9,9 +13,56 @@ import {
 } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DashboardContent } from "@/components/dashboard_component/dashboardContent"
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore"
+import { db } from "@/firebase/config"
+import { FormType } from '@/components/FounderForm'
+
 const page = () => {
-  return (
-    <>
+  const [fetchData,setFetchData]=React.useState({}as any);
+  const { data: session, status } = useSession()
+
+  const fetchingData= async ():Promise<any> => {
+    try {
+      const querySnapshot1 = await getDocs(
+        query(collection(db, "founders"), where("email", "==", session?.user?.email))
+      );
+      const querySnapshot2 = await getDocs(
+        query(collection(db, "investors"), where("email", "==", session?.user?.email))
+      );
+      if (!querySnapshot1.empty) {
+      const datafetch=  querySnapshot1.docs[0].data() 
+      return {...datafetch,here:"founder"}
+      } else if (!querySnapshot2.empty) {
+        const datafetch=  querySnapshot2.docs[0].data()
+      return {...datafetch,here:"investor"}
+        
+      } 
+      else
+      return
+    
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const route = useRouter();
+  React.useEffect(() => {
+    console.log(fetchData); // Will show the updated state
+  }, [fetchData]);
+  React.useEffect(()=>{
+    const fetchDataAsync =async() => {
+      const fetchedData = await fetchingData(); 
+      setFetchData((prevPersondetail:any) => {
+        return { ...prevPersondetail,...fetchedData};
+      }); 
+    
+    }
+    fetchDataAsync();
+    if(!session){
+     route.push("/login");
+    }
+  },[])
+  return (<>
+    {session?.user && status === "authenticated"&&  Object.keys(fetchData).length>0 ?(<>
       <section >
       <div className="flex-1 space-y-4 p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
@@ -26,7 +77,7 @@ const page = () => {
         </TabsList>
         <TabsContent value="profile" className="space-y-4">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-                <DashboardContent />
+                <DashboardContent personData={fetchData} />
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
@@ -58,7 +109,7 @@ const page = () => {
       </Tabs>
     </div>
       </section>
-    </>
+    </>):<div className="flex justify-center items-center font-bold text-lg">Loading...</div>}</>
   )
 }
 

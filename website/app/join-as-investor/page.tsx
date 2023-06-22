@@ -1,6 +1,6 @@
 "use client"
 
-import { FormEvent } from "react"
+import { FormEvent,useState } from "react"
 import WizardLayout from "@/layout/WizardLayout"
 import { FormValues, investorFormSchema } from "@/schema/investorFormSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,10 +13,11 @@ import UserLoginForm from "@/components/UserLoginForm"
 import UserRegisterForm from "@/components/UserRegisterForm"
 
 function Page() {
-  const { steps, currentStepIndex, step, isFirstStep, back, next, isLastStep } =
+  const [inData,setInData]=useState<boolean>(true)
+  const { steps, currentStepIndex, step, isFirstStep, back, next, isLastStep} =
     useMultiStepForm([
-      <InvestorForm />,
-      <UserLoginForm />,
+      <InvestorForm  inData={inData} setInData={setInData}/>,
+      // <UserLoginForm />,
       <UserRegisterForm />,
     ])
 
@@ -28,11 +29,17 @@ function Page() {
       commitment: "5L",
     },
   })
-
+  const { isDirty, isValidating, isValid,dirtyFields, touchedFields } = form.formState;
+      
   function onSubmit(e: FormEvent) {
     e.preventDefault()
-    next()
+   
+  if (isDirty && isValid && !isValidating) {
+    next();
   }
+  }
+  console.log(!isDirty, !isValidating, !isValid,);
+  
   return (
     <>
       <WizardLayout currentStep={currentStepIndex + 1} maxSteps={steps.length}>
@@ -43,7 +50,7 @@ function Page() {
               <Button disabled={isFirstStep} onClick={back}>
                 Back
               </Button>
-              <Button type={"submit"}> {isLastStep ? "Submit" : "Next"}</Button>
+              <Button type={"submit"} disabled={!isDirty || !isValid || isValidating} > {isLastStep ? "Submit" : "Next"}</Button>
             </div>
           </form>
         </FormProvider>

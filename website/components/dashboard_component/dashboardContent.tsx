@@ -1,5 +1,11 @@
+"use client"
+
+import React from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import AvatarPhoto from "@/public/assests/avatar2.png"
+import { FormValues } from "@/schema/investorFormSchema"
+import { useSession } from "next-auth/react"
 
 import {
   Card,
@@ -8,21 +14,36 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { FormType } from "@/components/FounderForm"
 
-export function DashboardContent() {
+type DetailForm = FormType | FormValues
+type PropType = DetailForm & { here: string }
+export function DashboardContent({ personData }: PropType) {
+  const { data: session, status } = useSession()
+  const route = useRouter()
+  React.useEffect(() => {
+    if (!session) {
+      route.push("/login")
+    }
+  }, [])
+  // console.log(session?.user?.name);
+  const imageUrl = session?.user?.image
   return (
     <>
       <Card className="lg:col-span-3">
         <CardHeader>
-          <CardTitle>Rahul Kumar Sonkar</CardTitle>
-          <CardDescription>Founder</CardDescription>
+          <CardTitle>
+            <span className="capitalize">{personData.firstName}</span>{" "}
+            <span className="capitalize">{personData.lastName}</span>
+          </CardTitle>
+          <CardDescription>{personData.here}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-8">
             <div className=" grid grid-cols-1 gap-3 lg:grid-cols-10 ">
               <div className="col-span-2 grid  h-[100%] w-[120%] items-center justify-items-center border-b-2 p-4 sm:w-[110%] lg:w-[100%] lg:border-b-0 lg:border-r-2">
                 <Image
-                  src={AvatarPhoto}
+                  src={imageUrl ? imageUrl : AvatarPhoto}
                   alt="Profile_photo"
                   width={100}
                   height={100}
@@ -30,17 +51,19 @@ export function DashboardContent() {
                 />
               </div>
 
-              <div className="col-span-8 grid grid-cols-1 items-center justify-items-start sm:grid-cols-2 lg:grid-cols-3 ">
-                <div>Gender: male</div>
-                <div>Linkedin id: rahulxyz</div>
+              <div className="col-span-8 grid grid-cols-1 items-center  justify-items-start sm:grid-cols-2 lg:grid-cols-2 ">
+                <div className="hyphens-auto break-words">
+                  Gender: {personData.gender}
+                </div>
+                <div>Linkedin id:{personData.linkedIn}</div>
 
-                <div>Date of birth: 23/07/1997</div>
-                <div>Phone number: 6387738230</div>
-                <div>Country: Indian</div>
+                <div>Date of birth: {personData.city}</div>
+                <div>Phone number: {personData.phone}</div>
+                <div>Country: {personData.city}</div>
 
-                <div>Current location: Mughal Sarai, India</div>
+                <div>Current location:{personData.city}</div>
 
-                <div>Here for: Business Opportunities, Networking, Mentors</div>
+                <div>Here for: {personData.here}</div>
               </div>
             </div>
           </div>

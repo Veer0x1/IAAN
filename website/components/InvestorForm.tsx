@@ -45,7 +45,10 @@ import {
   FormMessage,
 } from "@/components/react-hook-form/form"
 
-interface OwnProps {}
+interface OwnProps {
+  inData: boolean;
+  setInData: (value: boolean) => void;
+}
 
 type Props = OwnProps
 
@@ -84,7 +87,7 @@ const sectors = [
   { label: "IoT", value: "IoT" },
 ] as const
 
-const InvestorForm: FunctionComponent<Props> = () => {
+const InvestorForm: FunctionComponent<Props> = ({inData,setInData}) => {
   // const form = useForm<FormValues>({
   //   resolver: zodResolver(investorFormSchema),
   //   mode: "onBlur",
@@ -94,7 +97,6 @@ const InvestorForm: FunctionComponent<Props> = () => {
   //   },
   // })
   const { formState, control, setValue } = useFormContext()
-
   const countryOptions = Object.values(countries)
 
   const onSubmit = (data: FormValues) => {
@@ -110,10 +112,22 @@ const InvestorForm: FunctionComponent<Props> = () => {
       ),
     })
   }
+  // const handleSwitchChange = (event:any) => {
+  //   // form.handleSubmit(onSubmit)
+  //   // Update the form value for the 'Switch' component
+  //   const newValue = event.target.checked;
+  //   // You can perform any additional logic here if needed
+  
+  //   // Call the 'getValues' method to retrieve the current form values
+  //   const values = form.getValues();
+  //   // console.log(values);
+  // };
+  // React.useEffect(()=>{
+  // },[form.getValues().mentorship])
   return (
     <>
-      {/*<Form {...form}>*/}
-      {/*<form onSubmit={form.handleSubmit(onSubmit)}>*/}
+      {/* <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}> */}
       <div className={"md:flex md:p-2"}>
         <FormField
           control={control}
@@ -360,17 +374,17 @@ const InvestorForm: FunctionComponent<Props> = () => {
               </FormDescription>
             </div>
             <FormControl>
-              <Switch checked={field.value} onCheckedChange={field.onChange} />
+              <Switch checked={field.value} onCheckedChange={field.onChange}  />
             </FormControl>
           </FormItem>
         )}
       />
 
-      {/*<Button type="submit" className={"m-4"}>*/}
-      {/*  Submit*/}
-      {/*</Button>*/}
-      {/*</form>*/}
-      {/*</Form>*/}
+      {/* <Button type="submit" className={"m-4 "}>
+       Submit
+      </Button> */}
+      {/* </form>
+      </Form> */}
     </>
   )
 }

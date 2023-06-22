@@ -45,7 +45,7 @@ export default function UserLoginForm() {
     const signInResult = await signIn("email", {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams?.get("from") || "/dashboard",
+      callbackUrl: searchParams?.get("from")||"/dashboard",
     })
 
     setIsLoading(false)
@@ -128,7 +128,7 @@ export default function UserLoginForm() {
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             ) : (
               <Icons.linkedin className="mr-2 h-4 w-4 text-[#0077b5]" />
-            )}{" "}
+            )}
             LinkedIn
           </Button>
         </div>

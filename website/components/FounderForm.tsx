@@ -41,8 +41,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/react-hook-form/form"
-import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
-import { collection,doc } from "firebase/firestore";
+// import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
+import {doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "@/firebase/config"
 interface OwnProps {}
 type Props = OwnProps
@@ -93,7 +93,6 @@ const sectors = [
 ] as const
 
 const FounderForm: FunctionComponent<Props> = () => {
-  const [customId,setCustomId] = React.useState("1234599");
   const form = useForm<FormType>({
     resolver: zodResolver(founderFormSchema),
     mode: "onBlur",
@@ -103,23 +102,28 @@ const FounderForm: FunctionComponent<Props> = () => {
     },
   })
   
-    let ref = doc(collection(db, "founders"), customId);
-    const mutation = useFirestoreDocumentMutation(ref);
      
-  const onSubmit = (data: FormType) => {
-    setCustomId(data.firstName + data.phone);
-    mutation.mutate(data,  {
-      onSuccess() {
-          toast({
-              title: "Document added!"})
-      },
-      onError() {
-          toast({
-              title: "Failed to add document!"})
-      },
+  const onSubmit = async(data: FormType) => {
+    try {
+      await setDoc(doc(db, "founders", data.firstName + data.phone), {...data,date:Timestamp.now()});
+      toast({title: "Document added!"})
+    } catch (error:any) {
+      toast({title: error.message})
+      
+    }
+    
+    // mutation.mutate(data,  {
+    //   onSuccess() {
+    //       toast({
+    //           title: "Document added!"})
+    //   },
+    //   onError() {
+    //       toast({
+    //           title: "Failed to add document!"})
+    //   },
     
       
-    })
+    // })
     
     
     // toast({
@@ -130,6 +134,8 @@ const FounderForm: FunctionComponent<Props> = () => {
     //     </pre>
     //   ),
     // })
+
+   
   }
   return (
     <>
@@ -391,7 +397,7 @@ const FounderForm: FunctionComponent<Props> = () => {
                 render={({ field }) => (
                   <>
                     <FormItem>
-                      <FormLabel>Website Name</FormLabel>
+                      <FormLabel>Website URL</FormLabel>
                       <FormControl>
                         <Input autoComplete="off" {...field} />
                       </FormControl>
