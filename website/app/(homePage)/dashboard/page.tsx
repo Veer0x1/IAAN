@@ -16,45 +16,38 @@ import { DashboardContent } from "@/components/dashboard_component/dashboardCont
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore"
 import { db } from "@/firebase/config"
 import { FormType } from '@/components/FounderForm'
-
-const page = () => {
-  const [fetchData,setFetchData]=React.useState({}as any);
+import { FormValues } from "@/schema/investorFormSchema"
+type Propdata = (FormType&{ here: string,city:string,country:string } )|( FormValues&{ here: string,city:string,country:string })
+const Page = () => {
+  const [fetchData,setFetchData]=React.useState<Propdata>({}as Propdata);
   const { data: session, status } = useSession()
-
-  const fetchingData= async ():Promise<any> => {
-    try {
-      const querySnapshot1 = await getDocs(
-        query(collection(db, "founders"), where("email", "==", session?.user?.email))
-      );
-      const querySnapshot2 = await getDocs(
-        query(collection(db, "investors"), where("email", "==", session?.user?.email))
-      );
-      if (!querySnapshot1.empty) {
-      const datafetch=  querySnapshot1.docs[0].data() 
-      return {...datafetch,here:"founder"}
-      } else if (!querySnapshot2.empty) {
-        const datafetch=  querySnapshot2.docs[0].data()
-      return {...datafetch,here:"investor"}
-        
-      } 
-      else
-      return
-    
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   const route = useRouter();
   React.useEffect(() => {
     console.log(fetchData); // Will show the updated state
   }, [fetchData]);
   React.useEffect(()=>{
     const fetchDataAsync =async() => {
-      const fetchedData = await fetchingData(); 
-      setFetchData((prevPersondetail:any) => {
-        return { ...prevPersondetail,...fetchedData};
-      }); 
-    
+      try {
+        const querySnapshot1 = await getDocs(
+          query(collection(db, "founders"), where("email", "==", session?.user?.email))
+        );
+        const querySnapshot2 = await getDocs(
+          query(collection(db, "investors"), where("email", "==", session?.user?.email))
+        );
+        if (!querySnapshot1.empty) {
+        const datafetch=  querySnapshot1.docs[0].data() 
+        setFetchData({...datafetch,here:"founder"}as Propdata)
+        } else if (!querySnapshot2.empty) {
+          const datafetch=  querySnapshot2.docs[0].data()
+          setFetchData({...datafetch,here:"investor"}as Propdata)
+          
+        } 
+        else
+        setFetchData({}as Propdata)
+      
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
     fetchDataAsync();
     if(!session){
@@ -113,4 +106,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

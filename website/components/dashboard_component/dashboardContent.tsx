@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { FunctionComponent } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import AvatarPhoto from "@/public/assests/avatar2.png"
@@ -16,9 +16,14 @@ import {
 } from "@/components/ui/card"
 import { FormType } from "@/components/FounderForm"
 
+
 type DetailForm = FormType | FormValues
 type PropType = DetailForm & { here: string }
-export function DashboardContent({ personData }: PropType) {
+interface OwnProps {}
+type Props = OwnProps & {
+  personData:(FormType&{ here: string,city:string,country:string } )|( FormValues&{ here: string,city:string,country:string })
+}
+export const  DashboardContent:FunctionComponent<Props>=({ personData })=> {
   const { data: session, status } = useSession()
   const route = useRouter()
   React.useEffect(() => {
@@ -59,9 +64,9 @@ export function DashboardContent({ personData }: PropType) {
 
                 <div>Date of birth: {personData.city}</div>
                 <div>Phone number: {personData.phone}</div>
-                <div>Country: {personData.city}</div>
+                <div>Country: {personData.country}</div>
 
-                <div>Current location:{personData.city}</div>
+                <div>Current location:{personData?.phone}</div>
 
                 <div>Here for: {personData.here}</div>
               </div>

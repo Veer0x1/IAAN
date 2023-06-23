@@ -13,10 +13,9 @@ import UserLoginForm from "@/components/UserLoginForm"
 import UserRegisterForm from "@/components/UserRegisterForm"
 
 function Page() {
-  const [inData,setInData]=useState<boolean>(true)
   const { steps, currentStepIndex, step, isFirstStep, back, next, isLastStep} =
     useMultiStepForm([
-      <InvestorForm  inData={inData} setInData={setInData}/>,
+      <InvestorForm />,
       // <UserLoginForm />,
       <UserRegisterForm />,
     ])

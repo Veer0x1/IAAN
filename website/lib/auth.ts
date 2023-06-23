@@ -1,7 +1,15 @@
 import * as process from "process"
 import { db, firestore } from "@/firebase/config"
 import { FirestoreAdapter } from "@next-auth/firebase-adapter"
-import { addDoc, collection, getDocs, query, where, doc, updateDoc } from "firebase/firestore"
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore"
 import { NextAuthOptions } from "next-auth"
 import EmailProvider from "next-auth/providers/email"
 import LinkedInProvider from "next-auth/providers/linkedin"
@@ -40,7 +48,7 @@ export const authOptions: NextAuthOptions = {
           ? process.env.POSTMARK_SIGN_IN_TEMPLATE
           : process.env.POSTMARK_ACTIVATION_TEMPLATE
         if (!templateId) {
-          url = "https://example.com/default-url";
+          url = "https://example.com/default-url"
           throw new Error("Missing template id")
         }
 
@@ -76,35 +84,33 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    signIn: async function ({user}) { 
+    signIn: async function ({ user }) {
       try {
-        let email = user?.email;
-        let photo = user?.image;
-        
+        let email = user?.email
+        let photo = user?.image
+
         const querySnapshot1 = await getDocs(
           query(collection(db, "founders"), where("email", "==", email))
-        );
+        )
         const querySnapshot2 = await getDocs(
           query(collection(db, "investors"), where("email", "==", email))
-        );
-        const doc1=querySnapshot1.docs[0]
+        )
+        const doc1 = querySnapshot1.docs[0]
         const doc2 = querySnapshot2.docs[0]
-          if(!querySnapshot1.empty)
-          {const docRef = doc(db, "founders", doc1.id);
-            await updateDoc(docRef, {image:photo});
-          }
-           if(!querySnapshot2.empty)
-          {
-              const docRef = doc(db, "investors",doc2.id);
-              await updateDoc(docRef, {image:photo});
-           
-          }
-        if ( querySnapshot1.empty && querySnapshot2.empty) {
-          return "/register/founder";
+        if (!querySnapshot1.empty) {
+          const docRef = doc(db, "founders", doc1.id)
+          await updateDoc(docRef, { image: photo })
         }
-        return true;
+        if (!querySnapshot2.empty) {
+          const docRef = doc(db, "investors", doc2.id)
+          await updateDoc(docRef, { image: photo })
+        }
+        if (querySnapshot1.empty && querySnapshot2.empty) {
+          return "/register/founder"
+        }
+        return true
       } catch (error) {
-        return `/error`;
+        return `/error`
       }
     },
 
