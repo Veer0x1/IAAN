@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { countries } from "countries-list"
 import { addDoc, collection, doc, setDoc } from "firebase/firestore"
 import { Check, ChevronDown, ChevronsUpDown } from "lucide-react"
-import { useForm, useFormContext } from "react-hook-form"
+import { useForm, FormProvider, useFormContext } from "react-hook-form"
 import * as z from "zod"
 
 import { cn } from "@/lib/utils"
@@ -93,7 +93,7 @@ const InvestorForm: FunctionComponent<Props> = () => {
       commitment: "5L",
     },
   })
-  const { formState, control, setValue } = useFormContext()
+  const { control, setValue } = useFormContext()
   const countryOptions = Object.values(countries)
 
   const onSubmit = (data: FormValues) => {
@@ -114,15 +114,16 @@ const InvestorForm: FunctionComponent<Props> = () => {
     // Update the form value for the 'Switch' component
     const newValue = event.target.checked;
     // You can perform any additional logic here if needed
-  
+
     // Call the 'getValues' method to retrieve the current form values
     const values = form.getValues();
     // console.log(values);
   };
   React.useEffect(()=>{
   },[form.getValues().mentorship])
+  const methods = useForm();
   return (
-    <>
+    <><FormProvider {...methods}>
       <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
       <div className={"md:flex md:p-2"}>
@@ -382,6 +383,7 @@ const InvestorForm: FunctionComponent<Props> = () => {
       </Button>
       </form>
       </Form>
+    </FormProvider>
     </>
   )
 }
