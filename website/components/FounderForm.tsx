@@ -1,8 +1,16 @@
 "use client"
 
 import React, { FunctionComponent } from "react"
+import { useRouter } from "next/navigation"
+import { db, storage } from "@/firebase/config"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { countries } from "countries-list"
+import { Timestamp, doc, setDoc ,
+  collection,
+  getDocs,
+  query,
+  where,} from "firebase/firestore"
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { Check, ChevronDown, ChevronsUpDown } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -41,9 +49,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/react-hook-form/form"
-// import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
-import {doc, setDoc, Timestamp } from "firebase/firestore";
-import { db } from "@/firebase/config"
+
 interface OwnProps {}
 type Props = OwnProps
 const founderFormSchema = z.object({
@@ -77,8 +83,21 @@ const founderFormSchema = z.object({
     .string()
     .nonempty({ message: "Website name is required" })
     .url({ message: "Invalid  URL" }),
+  file: z
+    .object({
+      image: z
+        .any()
+        .refine(
+          (image) =>
+            /\.(jpg|jpeg|png|webp)$/i.test(image[0]?.name),
+          `Only .jpg, .jpeg, .png and .webp formats are supported.`
+        ),
+    })
+    .refine((file) => file?.image[0], 'Please select an image file.'),
+
 })
- export type FormType = z.infer<typeof founderFormSchema>
+
+export type FormType = z.infer<typeof founderFormSchema>
 const countryOptions = Object.values(countries)
 const sectors = [
   { label: "FinTech", value: "fintech" },
@@ -101,42 +120,59 @@ const FounderForm: FunctionComponent<Props> = () => {
       countryCode: "+91 India",
     },
   })
-  
-     
-  const onSubmit = async(data: FormType) => {
-    try {
-      await setDoc(doc(db, "founders", data.firstName + data.phone), {...data,date:Timestamp.now()});
-      toast({title: "Document added!"})
-    } catch (error:any) {
-      toast({title: error.message})
-      
-    }
-    
-    // mutation.mutate(data,  {
-    //   onSuccess() {
-    //       toast({
-    //           title: "Document added!"})
-    //   },
-    //   onError() {
-    //       toast({
-    //           title: "Failed to add document!"})
-    //   },
-    
-      
-    // })
-    
-    
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // })
+  const route = useRouter()
+  const onSubmit =async(data: FormType) => {
+    try {  const querySnapshot1 = await getDocs(
+      query(collection(db, "founders"), where("email", "==", data.email))
+    )
+      if(querySnapshot1.empty){
+        console.log(data.file.image[0])
+        const file = data.file.image[0];
+        const storageRef = ref(storage, `images/${data.firstName + data.phone}`)
+        // @ts-ignore
+        const uploadTask = uploadBytesResumable(storageRef, file)
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            toast({title: `Upoading ${progress}`})
+            switch (snapshot.state) {
+              case "paused":
+                toast({title: "Upload is paused"})
+                break
+              case "running":
+                toast({title: `Upoading image ${Math.ceil(progress)}%`})
 
-   
+                break
+            }
+
+        },
+        (error) => {
+          toast({ title: error.message })
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            if (downloadURL) {
+              data.file.image=""
+              await setDoc(doc(db, "founders", data.firstName + data.phone), {...data,date:Timestamp.now(),websitePhoto:downloadURL});
+              toast({title: "Welcome to IAAN"})
+              route.push("/login")
+            }
+
+          })
+        }
+      )}
+      else
+      {
+        toast({title: "You have already filled the form!!!"})
+        route.push("/login")
+      }
+    } catch (error: any) {
+      toast({ title: error.message })
+    }
   }
+
   return (
     <>
       <Card className={"min-w-max"}>
@@ -151,11 +187,7 @@ const FounderForm: FunctionComponent<Props> = () => {
                     <FormItem>
                       <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Rahul"
-                          autoComplete="off"
-                          {...field}
-                        />
+                        <Input placeholder="Rahul" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -170,11 +202,7 @@ const FounderForm: FunctionComponent<Props> = () => {
                     <FormItem>
                       <FormLabel>Last Name</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Kumar"
-                          autoComplete="off"
-                          {...field}
-                        />
+                        <Input placeholder="Kumar" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -218,11 +246,7 @@ const FounderForm: FunctionComponent<Props> = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="rahul123@gmail.com"
-                        autoComplete="off"
-                        {...field}
-                      />
+                      <Input placeholder="rahul123@gmail.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -274,7 +298,7 @@ const FounderForm: FunctionComponent<Props> = () => {
                     <FormItem>
                       <FormLabel>Phone</FormLabel>
                       <FormControl>
-                        <Input autoComplete="off" {...field} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                       <FormDescription>
@@ -293,7 +317,7 @@ const FounderForm: FunctionComponent<Props> = () => {
                   <FormItem>
                     <FormLabel>LinkedIn Profile URL</FormLabel>
                     <FormControl>
-                      <Input autoComplete="off" {...field} />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -309,7 +333,7 @@ const FounderForm: FunctionComponent<Props> = () => {
                     <FormItem>
                       <FormLabel>City</FormLabel>
                       <FormControl>
-                        <Input autoComplete="off" {...field} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -324,7 +348,7 @@ const FounderForm: FunctionComponent<Props> = () => {
                     <FormItem>
                       <FormLabel>Company Name</FormLabel>
                       <FormControl>
-                        <Input autoComplete="off" {...field} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -399,7 +423,7 @@ const FounderForm: FunctionComponent<Props> = () => {
                     <FormItem>
                       <FormLabel>Website URL</FormLabel>
                       <FormControl>
-                        <Input autoComplete="off" {...field} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -407,6 +431,23 @@ const FounderForm: FunctionComponent<Props> = () => {
                 )}
               />
             </div>
+            <FormField
+              control={form.control}
+              name="file"
+              render={() => (
+                <>
+                  <FormItem>
+                    <FormLabel>Company Image</FormLabel>
+                    <FormControl>
+                      <Input type="file"
+            {...form.register('file.image')}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                </>
+              )}
+            />
             <Button type="submit" className={"m-4 ml-6"}>
               Submit
             </Button>
