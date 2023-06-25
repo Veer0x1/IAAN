@@ -5,9 +5,10 @@ import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-
+import {FormType} from "@/components/FounderForm";
+import Startupdetails from "@/components/startup-page/Startupdetails";
 interface OwnProps {
-  startup: any
+  startup: (FormType &{image: string,websitePhoto:string})
   searchText?: string
 }
 
@@ -18,36 +19,36 @@ const StartupCard: FunctionComponent<Props> = ({ startup, searchText }) => {
     undefined
   )
   return (
-    <div className="border-subtle relative flex h-64 flex-col rounded-md border p-5">
-      <div className="flex">
+    <div className="border-subtle relative flex  flex-col rounded-md border p-5">
+      <div className="flex justify-center ">
         <Image
-          width={48}
-          height={48}
-          src={startup.logo}
-          alt={startup.name + " Logo"}
-          className={cn("mb-4 h-12 w-12 rounded-sm")}
+          width={300}
+          height={400}
+          src={startup.websitePhoto}
+          alt={startup.firstName + " Logo"}
+          className={cn("  rounded-md")}
         />
       </div>
       <div className="flex items-center">
-        <h3 className="text-emphasis font-medium">
+        <h3 className="text-emphasis font-medium mt-1">
           {searchTextIndex != undefined && searchText ? (
             <>
-              {startup.name.substring(0, searchTextIndex)}
+              {startup.firstName.substring(0, searchTextIndex)}
               <span className="bg-yellow-300">
-                {startup.name.substring(
+                {startup.firstName.substring(
                   searchTextIndex,
                   searchTextIndex + searchText.length
                 )}
               </span>
-              {startup.name.substring(searchTextIndex + searchText.length)}
+              {startup.firstName.substring(searchTextIndex + searchText.length)}
             </>
           ) : (
-            startup.name
+            startup.companyName
           )}
         </h3>
       </div>
       <p
-        className="text-default mt-2 grow text-sm"
+        className="text-default mt-2 grow text-sm capitalize"
         style={{
           overflow: "hidden",
           display: "-webkit-box",
@@ -55,12 +56,10 @@ const StartupCard: FunctionComponent<Props> = ({ startup, searchText }) => {
           WebkitLineClamp: "3",
         }}
       >
-        {startup.description}
+        {startup.sector}
       </p>
       <div className="mt-5 flex max-w-full flex-row justify-between gap-2">
-        <Button variant={"outline"} className={"w-full"}>
-          details
-        </Button>
+        <Startupdetails detail={startup} />
       </div>
     </div>
   )

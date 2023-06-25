@@ -1,57 +1,32 @@
 "use client"
 
-import React, { FunctionComponent, useState } from "react"
-
+import React, { FunctionComponent, useState,useEffect } from "react"
+import {collection,getDocs} from "firebase/firestore"
+import { db } from "@/firebase/config"
 import { Input } from "@/components/ui/input"
 import AllStartups from "@/components/startup-page/AllStartups"
+import {FormType} from "@/components/FounderForm";
 
 interface OwnProps {}
 
 type Props = OwnProps
 
-const startups = [
-  {
-    logo: "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80",
-    name: "Startup One",
-    description:
-      "A revolutionary startup changing the world with innovative products.",
-  },
-  {
-    logo: "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80",
-    name: "Startup Two",
-    description:
-      "An AI-powered startup providing cutting-edge solutions for businesses.",
-  },
-  {
-    logo: "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80",
-    name: "Startup Three",
-    description:
-      "A social impact startup aiming to improve lives through technology.",
-  },
-  {
-    logo: "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80",
-    name: "Startup Three",
-    description:
-      "A social impact startup aiming to improve lives through technology.",
-  },
-  {
-    logo: "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80",
-    name: "Startup Three",
-    description:
-      "A social impact startup aiming to improve lives through technology.",
-  },
-  {
-    logo: "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80",
-    name: "Startup Three",
-    description:
-      "A social impact startup aiming to improve lives through technology.",
-  },
+type detailType = (FormType & { image: string,websitePhoto:string })[]
 
-  // Add more startup objects here
-]
 
 const StartupPage: FunctionComponent<Props> = (props) => {
+  const [collectionData, setCollectionData] = useState<detailType>([]);
   const [searchText, setSearchText] = useState<string | undefined>(undefined)
+  useEffect(()=>{
+    const getCollection =async ()=>{
+      const querySnapshot = await getDocs(collection(db,"founders"));
+      // @ts-ignore
+      const data:detailType = querySnapshot.docs.map((doc) => doc.data());
+      // console.log(data);
+      setCollectionData(data);
+    }
+    getCollection();
+  },[])
   return (
     <>
       <header className={"flex w-full max-w-full items-center truncate"}>
@@ -83,7 +58,7 @@ const StartupPage: FunctionComponent<Props> = (props) => {
           />
         </div>
       </header>
-      <AllStartups searchText={searchText} startups={startups} />
+      <AllStartups searchText={searchText} startups={collectionData} />
     </>
   )
 }

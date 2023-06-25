@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type UIEvent } from "react"
+import React, { useEffect, useRef, useState, type UIEvent } from "react"
 import { useRouter } from "next/navigation"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
@@ -43,12 +43,14 @@ interface CategoryTabProps {
   selectedCategory: string | null
   categories: string[]
   searchText?: string
+  setSectorFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 export default function CategoryTab({
   selectedCategory,
   categories,
-  searchText,
+  searchText,setSectorFilter
 }: CategoryTabProps) {
+  const [value ,setValue] = useState<string>("")
   const router = useRouter()
   const { ref, calculateScroll, leftVisible, rightVisible } =
     useShouldShowArrows()
@@ -63,6 +65,11 @@ export default function CategoryTab({
       ref.current.scrollLeft += 100
     }
   }
+  useEffect(()=>{
+    if(value!=undefined){
+      setSectorFilter(value)
+    }
+  },[value])
   return (
     <div className="relative mb-4 flex flex-col justify-between lg:flex-row lg:items-center">
       <h2 className="text-emphasis hidden text-base font-semibold leading-none sm:block">
@@ -89,11 +96,12 @@ export default function CategoryTab({
         ref={ref}
       >
         <li
-          // onClick={() => {
+          onClick={() => {
           //   router.replace(router.asPath.split("?")[0], undefined, {
           //     shallow: true,
           //   })
-          // }}
+            setValue("");
+          }}
           className={cn(
             selectedCategory === null
               ? "bg-emphasis text-default"
@@ -106,7 +114,7 @@ export default function CategoryTab({
         {categories.map((cat, pos) => (
           <li
             key={pos}
-            // onClick={() => {
+            onClick={() => {
             //   if (selectedCategory === cat) {
             //     router.replace(router.asPath.split("?")[0], undefined, {
             //       shallow: true,
@@ -120,11 +128,12 @@ export default function CategoryTab({
             //       }
             //     )
             //   }
-            // }}
+              value==cat?setValue(""):setValue(cat)
+            }}
             className={cn(
-              selectedCategory === cat
+              value==undefined
                 ? "bg-emphasis text-default"
-                : "text-emphasis bg-muted",
+                : "text-emphasis bg-muted hover:bg-emphasis",
               "hover:bg-emphasis whitespace-nowrap rounded-md px-4 py-2.5 text-sm font-medium hover:cursor-pointer"
             )}
           >

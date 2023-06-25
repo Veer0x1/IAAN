@@ -5,7 +5,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ["images.unsplash.com","media.licdn.com"],
+    domains: ["images.unsplash.com","media.licdn.com","firebasestorage.googleapis.com"],
   },
   env: {
     LINKEDIN_CLIENT_SECRET: process.env.LINKEDIN_CLIENT_SECRET,
