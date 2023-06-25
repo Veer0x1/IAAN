@@ -7,7 +7,6 @@ import { db } from "@/firebase/config"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { countries } from "countries-list"
 import {
-  addDoc,
   collection,
   doc,
   getDocs,

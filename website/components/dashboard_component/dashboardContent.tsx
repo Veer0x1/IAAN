@@ -16,21 +16,22 @@ import {
 } from "@/components/ui/card"
 import { FormType } from "@/components/FounderForm"
 
-
 type DetailForm = FormType | FormValues
 type PropType = DetailForm & { here: string }
 interface OwnProps {}
 type Props = OwnProps & {
-  personData:(FormType&{ here: string,city:string,country:string } )|( FormValues&{ here: string,city:string,country:string })
+  personData:
+    | (FormType & { here: string; city: string; country: string })
+    | (FormValues & { here: string; city: string; country: string })
 }
-export const  DashboardContent:FunctionComponent<Props>=({ personData })=> {
+export const DashboardContent: FunctionComponent<Props> = ({ personData }) => {
   const { data: session, status } = useSession()
   const route = useRouter()
   React.useEffect(() => {
     if (!session) {
       route.push("/login")
     }
-  }, [])
+  }, [route, session])
   // console.log(session?.user?.name);
   const imageUrl = session?.user?.image
   return (

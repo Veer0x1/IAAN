@@ -43,14 +43,15 @@ interface CategoryTabProps {
   selectedCategory: string | null
   categories: string[]
   searchText?: string
-  setSectorFilter: React.Dispatch<React.SetStateAction<string>>;
+  setSectorFilter: React.Dispatch<React.SetStateAction<string>>
 }
 export default function CategoryTab({
   selectedCategory,
   categories,
-  searchText,setSectorFilter
+  searchText,
+  setSectorFilter,
 }: CategoryTabProps) {
-  const [value ,setValue] = useState<string>("")
+  const [value, setValue] = useState<string>("")
   const router = useRouter()
   const { ref, calculateScroll, leftVisible, rightVisible } =
     useShouldShowArrows()
@@ -65,11 +66,11 @@ export default function CategoryTab({
       ref.current.scrollLeft += 100
     }
   }
-  useEffect(()=>{
-    if(value!=undefined){
+  useEffect(() => {
+    if (value != undefined) {
       setSectorFilter(value)
     }
-  },[value])
+  }, [value, setSectorFilter])
   return (
     <div className="relative mb-4 flex flex-col justify-between lg:flex-row lg:items-center">
       <h2 className="text-emphasis hidden text-base font-semibold leading-none sm:block">
@@ -97,10 +98,10 @@ export default function CategoryTab({
       >
         <li
           onClick={() => {
-          //   router.replace(router.asPath.split("?")[0], undefined, {
-          //     shallow: true,
-          //   })
-            setValue("");
+            //   router.replace(router.asPath.split("?")[0], undefined, {
+            //     shallow: true,
+            //   })
+            setValue("")
           }}
           className={cn(
             selectedCategory === null
@@ -115,25 +116,25 @@ export default function CategoryTab({
           <li
             key={pos}
             onClick={() => {
-            //   if (selectedCategory === cat) {
-            //     router.replace(router.asPath.split("?")[0], undefined, {
-            //       shallow: true,
-            //     })
-            //   } else {
-            //     router.replace(
-            //       router.asPath.split("?")[0] + `?category=${cat}`,
-            //       undefined,
-            //       {
-            //         shallow: true,
-            //       }
-            //     )
-            //   }
-              value==cat?setValue(""):setValue(cat)
+              //   if (selectedCategory === cat) {
+              //     router.replace(router.asPath.split("?")[0], undefined, {
+              //       shallow: true,
+              //     })
+              //   } else {
+              //     router.replace(
+              //       router.asPath.split("?")[0] + `?category=${cat}`,
+              //       undefined,
+              //       {
+              //         shallow: true,
+              //       }
+              //     )
+              //   }
+              value == cat ? setValue("") : setValue(cat)
             }}
             className={cn(
-              value==undefined
+              value == undefined
                 ? "bg-emphasis text-default"
-                : "text-emphasis bg-muted hover:bg-emphasis",
+                : "text-emphasis hover:bg-emphasis bg-muted",
               "hover:bg-emphasis whitespace-nowrap rounded-md px-4 py-2.5 text-sm font-medium hover:cursor-pointer"
             )}
           >
