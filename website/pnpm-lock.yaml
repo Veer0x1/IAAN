@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@formkit/auto-animate':
     specifier: 1.0.0-beta.6
@@ -51,7 +55,7 @@ dependencies:
     version: 1.0.0-dev.7(firebase@9.23.0)(react-query@3.39.3)(react@18.2.0)
   '@tanstack/react-query':
     specifier: ^4.29.12
-    version: 4.29.12(react-dom@18.2.0)(react@18.2.0)
+    version: 4.29.15(react-dom@18.2.0)(react@18.2.0)
   '@types/firebase':
     specifier: ^3.2.1
     version: 3.2.1
@@ -71,7 +75,7 @@ dependencies:
     specifier: ^2.30.0
     version: 2.30.0
   dotenv:
-    specifier: ^16.3.1
+    specifier: ^16.1.4
     version: 16.3.1
   firebase:
     specifier: ^9.23.0
@@ -6637,7 +6641,3 @@ packages:
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
