@@ -6,6 +6,8 @@ import { db } from "@/firebase/config"
 import { Input } from "@/components/ui/input"
 import AllStartups from "@/components/startup-page/AllStartups"
 import {FormType} from "@/components/FounderForm";
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 interface OwnProps {}
 
@@ -17,7 +19,12 @@ type detailType = (FormType & { image: string,websitePhoto:string })[]
 const StartupPage: FunctionComponent<Props> = (props) => {
   const [collectionData, setCollectionData] = useState<detailType>([]);
   const [searchText, setSearchText] = useState<string | undefined>(undefined)
+  const { data: session, status } = useSession()
+  const route = useRouter()
   useEffect(()=>{
+    if (!session) {
+      route.push("/login")
+    }
     const getCollection =async ()=>{
       const querySnapshot = await getDocs(collection(db,"founders"));
       // @ts-ignore
@@ -28,7 +35,8 @@ const StartupPage: FunctionComponent<Props> = (props) => {
     getCollection();
   },[])
   return (
-    <>
+    <>{session?.user && status === "authenticated" ? (
+      <>
       <header className={"flex w-full max-w-full items-center truncate"}>
         <div
           className={
@@ -59,6 +67,11 @@ const StartupPage: FunctionComponent<Props> = (props) => {
         </div>
       </header>
       <AllStartups searchText={searchText} startups={collectionData} />
+    </> ) : (
+        <div className="flex justify-center items-center font-bold text-lg">
+          Loading...
+        </div>
+      )}
     </>
   )
 }
