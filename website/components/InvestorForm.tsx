@@ -1,9 +1,19 @@
 "use client"
 
 import React, { FunctionComponent } from "react"
+import Link from "next/link"
+import { db } from "@/firebase/config"
 // @ts-ignore
 import { zodResolver } from "@hookform/resolvers/zod"
 import { countries } from "countries-list"
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore"
 import { Check, ChevronDown, ChevronsUpDown } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -33,6 +43,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
+import { ToastAction } from "@/components/ui/toast"
 import { toast } from "@/components/ui/use-toast"
 import {
   Form,
@@ -54,7 +65,12 @@ const investorFormSchema = z.object({
   email: z
     .string({ required_error: "Please enter email" })
     .email({ message: "Invalid email address" }),
-  linkedIn: z.string().url({ message: "Invalid LinkedIn URL" }),
+  linkedIn: z
+    .string()
+    .refine((value) => /^https?:\/\/(?:www\.)?linkedin\.com\/.*$/.test(value), {
+      message: "Invalid LinkedIn URL",
+    }),
+
   phone: z.string(),
   gender: z.enum(["male", "female", "other"], {
     invalid_type_error: "Select your gender",
@@ -91,16 +107,39 @@ const InvestorForm: FunctionComponent<Props> = () => {
   })
 
   const countryOptions = Object.values(countries)
-  const onSubmit = (data: FormValues) => {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  const onSubmit = async (data: FormValues) => {
+    try {
+      const querySnapshot = await getDocs(
+        query(collection(db, "investors"), where("email", "==", data.email))
+      )
+
+      if (querySnapshot.docs.length === 0) {
+        await setDoc(
+          doc(db, "investors", data.firstName.split(" ")[0] + data.phone),
+          data
+        )
+        toast({
+          title: "Successfully submitted",
+          action: (
+            <Link href={"/"}>
+              <ToastAction altText="Go to schedule to undo">Home</ToastAction>
+            </Link>
+          ),
+        })
+      } else {
+        toast({
+          title: "Email already exists",
+          description: "Please use another email or sign in to your account.",
+        })
+      }
+    } catch (e: any) {
+      toast({
+        title: "Something went wrong",
+        description: e.message,
+      })
+    }
   }
+
   return (
     <>
       <Card className={"min-w-max"}>

@@ -35,7 +35,7 @@ const InvestorPage: FunctionComponent<Props> = (props) => {
     if (!session) {
       route.push("/login")
     }
-  }, [])
+  }, [route, session])
   return (
     <>
       {session?.user && status === "authenticated" ? (
