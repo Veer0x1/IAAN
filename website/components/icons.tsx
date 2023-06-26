@@ -14,9 +14,12 @@ import {
   Linkedin,
   Loader2,
   LucideProps,
+  Mail,
+  MapPin,
   Menu,
   Moon,
   MoreVertical,
+  Phone,
   Pizza,
   Plus,
   Settings,
@@ -31,6 +34,10 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
+  phone: Phone,
+  mail: Mail,
+  check: Check,
+  map: MapPin,
   menu: Menu,
   close: X,
   spinner: Loader2,
