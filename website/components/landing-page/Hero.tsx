@@ -30,14 +30,14 @@ const Hero: FunctionComponent<Props> = (props) => {
           <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
             Get Started
           </Link>
-          <Link
-            href={siteConfig.links.github}
-            target="_blank"
-            rel="noreferrer"
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-          >
-            GitHub
-          </Link>
+          {/*<Link*/}
+          {/*  href={siteConfig.links.github}*/}
+          {/*  target="_blank"*/}
+          {/*  rel="noreferrer"*/}
+          {/*  className={cn(buttonVariants({ variant: "outline", size: "lg" }))}*/}
+          {/*>*/}
+          {/*  GitHub*/}
+          {/*</Link>*/}
         </div>
       </div>
     </section>
