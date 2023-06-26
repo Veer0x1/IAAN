@@ -4,11 +4,11 @@ export const landingPageConfig: LandingPageConfig = {
   mainNav: [
     {
       title: "Raise funds",
-      href: "/raise-funds",
+      href: "/investor",
     },
     {
       title: "Invest",
-      href: "/invest",
+      href: "/startups",
     },
     {
       title: "Team",

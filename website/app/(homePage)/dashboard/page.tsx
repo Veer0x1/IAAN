@@ -20,8 +20,8 @@ import { FormType } from "@/components/FounderForm"
 import { DashboardContent } from "@/components/dashboard_component/dashboardContent"
 
 type Propdata =
-  | (FormType & { here: string; city: string; country: string })
-  | (FormValues & { here: string; city: string; country: string })
+  | (FormType & { here: string})
+  | (FormValues & { here: string })
 const Page = () => {
   const [fetchData, setFetchData] = React.useState<Propdata>({} as Propdata)
   const { data: session, status } = useSession()
@@ -111,7 +111,7 @@ const Page = () => {
           </section>
         </>
       ) : (
-        <div className="flex justify-center items-center font-bold text-lg">
+        <div className="flex justify-center items-center font-bold text-lg w-full h-full">
           Loading...
         </div>
       )}

@@ -10,6 +10,9 @@ import { Toaster } from "@/components/ui/toaster"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import Provider from "@/app/Provider"
+import {MainNav} from "@/components/main-nav";
+import {landingPageConfig} from "@/config/landingPage";
+import NavbarAction from "@/components/ui/NavbarAction";
 
 export const metadata: Metadata = {
   title: {
@@ -49,6 +52,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Provider session={session}>
+              <header className="container z-40 bg-background -mb-10">
+                <div className="flex h-20 items-center justify-between py-6">
+                  <MainNav items={landingPageConfig.mainNav} />
+                  <nav className="flex align-middle"></nav>
+                  <NavbarAction />
+                </div>
+              </header>
               <div className="relative flex min-h-screen flex-col">
                 <div className="flex-1">{children}</div>
               </div>

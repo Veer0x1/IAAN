@@ -19,17 +19,19 @@ type Props = OwnProps & {
   detail: FormType &{image: string,websitePhoto:string}
 }
 const Startupdetails: FunctionComponent<Props> = ({ detail }) => {
+  console.log(detail)
   return (
     <Dialog>
       <DialogTrigger asChild >
         <Button variant="outline" className={"px-5"} >Details</Button>
       </DialogTrigger>
-      <DialogContent className="min-w-max">
+      <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="capitalize">
             {detail.firstName} {detail.lastName}
           </DialogTitle>
-          <DialogDescription>Founder</DialogDescription>
+          <DialogDescription>Founder of {detail.companyName}</DialogDescription>
+          <DialogDescription> {detail.comDescription}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-2 grid-cols-1 py-4">
           <div>

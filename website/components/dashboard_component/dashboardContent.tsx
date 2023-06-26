@@ -21,8 +21,8 @@ type PropType = DetailForm & { here: string }
 interface OwnProps {}
 type Props = OwnProps & {
   personData:
-    | (FormType & { here: string; city: string; country: string })
-    | (FormValues & { here: string; city: string; country: string })
+    | (FormType & { here: string})
+    | (FormValues & { here: string})
 }
 export const DashboardContent: FunctionComponent<Props> = ({ personData }) => {
   const { data: session, status } = useSession()
@@ -62,13 +62,10 @@ export const DashboardContent: FunctionComponent<Props> = ({ personData }) => {
                   Gender: {personData.gender}
                 </div>
                 <div>Linkedin id:{personData.linkedIn}</div>
-
-                <div>Date of birth: {personData.city}</div>
                 <div>Phone number: {personData.phone}</div>
                 <div>Country: {personData.country}</div>
-
-                <div>Current location:{personData?.phone}</div>
-
+                <div>Sector: {personData.sector}</div>
+                <div>Email: {personData.email}</div>
                 <div>Here for: {personData.here}</div>
               </div>
             </div>

@@ -74,7 +74,7 @@ const founderFormSchema = z.object({
   linkedIn: z
     .string({ required_error: "LinkedIn Id is required" })
     .url({ message: "Invalid LinkedIn URL" }),
-  city: z.string().nonempty({ message: "City is required" }),
+  country: z.string().nonempty({ message: "City is required" }),
   companyName: z
     .string()
     .nonempty({ message: "Startup company name  is required" }),
@@ -83,6 +83,9 @@ const founderFormSchema = z.object({
     .string()
     .nonempty({ message: "Website name is required" })
     .url({ message: "Invalid  URL" }),
+  comDescription: z
+    .string({ required_error: "Company description is required" })
+    .nonempty({ message: "Company description is required" }),
   file: z
     .object({
       image: z
@@ -327,11 +330,11 @@ const FounderForm: FunctionComponent<Props> = () => {
             <div className={"md:flex md:p-2"}>
               <FormField
                 control={form.control}
-                name="city"
+                name="country"
                 render={({ field }) => (
                   <>
                     <FormItem>
-                      <FormLabel>City</FormLabel>
+                      <FormLabel>Country</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -442,6 +445,21 @@ const FounderForm: FunctionComponent<Props> = () => {
                       <Input type="file"
             {...form.register('file.image')}
                       />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                </>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="comDescription"
+              render={({ field }) => (
+                <>
+                  <FormItem>
+                    <FormLabel>Company Description</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Description" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
