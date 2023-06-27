@@ -1,7 +1,7 @@
 import * as process from "process"
 import { db, firestore } from "@/firebase/config"
 import { FirestoreAdapter } from "@next-auth/firebase-adapter"
-import AWS from "aws-sdk"
+import { SES } from "@aws-sdk/client-ses";
 import {
   addDoc,
   collection,
@@ -23,7 +23,7 @@ const awsConfig = {
   region: "ap-south-1",
 }
 
-const ses = new AWS.SES(awsConfig)
+const ses = new SES(awsConfig)
 
 export const authOptions: NextAuthOptions = {
   adapter: FirestoreAdapter(firestore),
@@ -68,7 +68,7 @@ export const authOptions: NextAuthOptions = {
             }
 
             // @ts-ignore
-            const sendEmail = ses.sendEmail(params).promise()
+            const sendEmail = ses.sendEmail(params)
             sendEmail.then((data) => {
               console.log("email submitted to SES", data)
             })

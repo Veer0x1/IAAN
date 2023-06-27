@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     appDir: true,
+    serverComponentsExternalPackages: ["firebase-admin","@next-auth","@aws-sdk/client-ses"]
   },
   images: {
     domains: ["images.unsplash.com","media.licdn.com","firebasestorage.googleapis.com"],
