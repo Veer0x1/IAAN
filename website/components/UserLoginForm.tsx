@@ -42,26 +42,32 @@ export default function UserLoginForm() {
   async function onSubmit(data: FormData) {
     setIsLoading(true)
 
-    const signInResult = await signIn("email", {
-      email: data.email.toLowerCase(),
-      redirect: false,
-      callbackUrl: searchParams?.get("from")||"/dashboard",
-    })
+    try {
+      const signInResult = await signIn("email", {
+        email: data.email.toLowerCase(),
+        redirect: false,
+        callbackUrl: searchParams?.get("from") || "/",
+      })
 
-    setIsLoading(false)
+      if (signInResult?.error) {
+        throw new Error(signInResult.error)
+      }
 
-    if (!signInResult?.ok) {
-      return toast({
+      toast({
+        title: "Check your email",
+        description:
+          "We sent you a login link. Be sure to check your spam too.",
+      })
+    } catch (error) {
+      toast({
         title: "Something went wrong.",
-        description: "Your sign in request failed. Please try again.",
+        description:
+          "Your sign in request failed. Please try again or your email is not registered.",
         variant: "destructive",
       })
+    } finally {
+      setIsLoading(false)
     }
-
-    return toast({
-      title: "Check your email",
-      description: "We sent you a login link. Be sure to check your spam too.",
-    })
   }
 
   return (
