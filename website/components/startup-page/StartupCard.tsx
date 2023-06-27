@@ -5,10 +5,11 @@ import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import {FormType} from "@/components/FounderForm";
-import Startupdetails from "@/components/startup-page/Startupdetails";
+import { FormType } from "@/components/FounderForm"
+import Startupdetails from "@/components/startup-page/Startupdetails"
+
 interface OwnProps {
-  startup: (FormType &{image: string,websitePhoto:string})
+  startup: FormType & { image: string; websitePhoto: string }
   searchText?: string
 }
 
@@ -30,7 +31,7 @@ const StartupCard: FunctionComponent<Props> = ({ startup, searchText }) => {
         />
       </div>
       <div className="flex items-center">
-        <h3 className="text-emphasis font-medium mt-1">
+        <h3 className="text-emphasis mt-1 font-medium">
           {searchTextIndex != undefined && searchText ? (
             <>
               {startup.firstName.substring(0, searchTextIndex)}
