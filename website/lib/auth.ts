@@ -14,9 +14,9 @@ import {
 import { NextAuthOptions } from "next-auth"
 import EmailProvider from "next-auth/providers/email"
 import LinkedInProvider from "next-auth/providers/linkedin"
-
 import { siteConfig } from "@/config/site"
-
+import { cert } from "firebase-admin/app";
+import { ServiceAccount } from 'firebase-admin';
 const awsConfig = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -24,9 +24,50 @@ const awsConfig = {
 }
 
 const ses = new SES(awsConfig)
+//  const allkey={
+//   type: process.env.TYPE,
+//   project_id:process.env.PROJECT_ID,
+// private_key_id:process.env.PRIVATE_KEY_ID,
+// private_key:process.env.PRIVATE_KEY,
+// client_email:process.env.CLIENT_EMAIL,
+// client_id:process.env.CLIENT_ID,
+// auth_uri:process.env.AUTH_URI,
+// token_uri:process.env.TOKEN_URI,
+// auth_provider_x509_cert_url:process.env.AUTH_PROVIDER_X509_CERT_URL,
+// client_x509_cert_url:process.env.CLIENT_X509_CERT_URL,
+// universe_domain:process.env.UNIVERSE_DOMAIN
+// }
+
+// const allkey = {
+//   type: process.env.TYPE,
+//   project_id: process.env.PROJECT_ID,
+//   private_key_id: process.env.PRIVATE_KEY_ID,
+//   private_key: process.env.PRIVATE_KEY,
+//   client_email: process.env.CLIENT_EMAIL,
+//   client_id: process.env.CLIENT_ID,
+//   auth_uri: process.env.AUTH_URI,
+//   token_uri: process.env.TOKEN_URI,
+//   auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
+//   client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
+//   universe_domain: process.env.UNIVERSE_DOMAIN
+// };
+
+// const serviceAccount = {
+//   type: allkey.type,
+//   project_id: allkey.project_id,
+//   private_key_id: allkey.private_key_id,
+//   private_key: allkey.private_key.replace(/\\n/g, '\n'),
+//   client_email: allkey.client_email,
+//   client_id: allkey.client_id,
+//   auth_uri: allkey.auth_uri,
+//   token_uri: allkey.token_uri,
+//   auth_provider_x509_cert_url: allkey.auth_provider_x509_cert_url,
+//   client_x509_cert_url: allkey.client_x509_cert_url,
+// };
 
 export const authOptions: NextAuthOptions = {
-  adapter: FirestoreAdapter(firestore),
+  // @ts.ignore
+  adapter: FirestoreAdapter( firestore ),
 
   providers: [
     LinkedInProvider({
