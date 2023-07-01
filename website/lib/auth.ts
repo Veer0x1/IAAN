@@ -65,9 +65,9 @@ const ses = new SES(awsConfig)
 //   client_x509_cert_url: allkey.client_x509_cert_url,
 // };
 const credentials = {
-  project_id: process.env.PROJECT_ID || '',
-  client_email: process.env.CLIENT_EMAIL || '',
-  private_key: process.env.PRIVATE_KEY || '',
+  projectId: process.env.PROJECT_ID || '',
+  clientEmail: process.env.CLIENT_EMAIL || '',
+  privateKey: process.env.PRIVATE_KEY || '',
 };
 export const authOptions: NextAuthOptions = {
   // @ts.ignore
