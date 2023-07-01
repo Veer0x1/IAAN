@@ -64,15 +64,16 @@ const ses = new SES(awsConfig)
 //   auth_provider_x509_cert_url: allkey.auth_provider_x509_cert_url,
 //   client_x509_cert_url: allkey.client_x509_cert_url,
 // };
-
+const credentials = {
+  project_id: process.env.PROJECT_ID || '',
+  client_email: process.env.CLIENT_EMAIL || '',
+  private_key: process.env.PRIVATE_KEY || '',
+};
 export const authOptions: NextAuthOptions = {
   // @ts.ignore
   adapter: FirestoreAdapter({
-      credential: cert({
-        project_id: process.env.PROJECT_ID,
-        client_email: process.env.CLIENT_EMAIL,
-        private_key: process.env.PRIVATE_KEY,
-      })
+    // @ts-ignore
+      credential: cert(credentials)
     }),
 
   providers: [
