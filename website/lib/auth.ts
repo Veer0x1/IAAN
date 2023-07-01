@@ -69,11 +69,25 @@ const credentials = {
   clientEmail: process.env.CLIENT_EMAIL || '',
   privateKey: process.env.PRIVATE_KEY || '',
 };
+const serviceAccount = {
+  type: 'service_account',
+  project_id: "iaan-4a273",
+  private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCvI2f3ahBUt94X\nsLdAGv6ZEMUAHkdU0I1upifcjDNFwNw+X1cEixJouvG/rHA3+USCCix7IEkspPaM\nQXQJNXgv94E75qt0SHqpUW9eYdl6ma3hj5v6i2DhmxwNA3Hkd5IjwUQ0eBuGzyxy\nfb1BBl6t+d4aWAXBksoRtytO/eXxaeb6xwgZ79yUSikkh2mNHY+XTPowpLKo4qE3\n+FECarg0U4xCHWzTR4mF3oL29cVxTlaszqZmD/sKu12a3BE8viHH8wRSJ/zvB4DG\nYey0vn/sqwTk5poTtDX0dSzv1IMag6E5jlcAEf2djfSMoeRKTYWesUE9AiReq6UW\nROkO8waZAgMBAAECggEAG6o32sb0B/HYYP0e4T8yXtrdh4iA44ajBKq16rpxwe+2\nSpr0S6ktMgJvvAOA4XKcTf9N6fAeZvEy6dJQAkFiOA98aEomZLKrP5I3yZyixiE+\n7H2rGZ9JITIHcw3LgJebq860V6ZuULPqlTZD/iDDtW8eFKK5XAu0JCq/KlXka+b3\n8UYmHOe6S1rqGvsZpHdAi5qUshhMolY9Y8f02CqhKLJ1XATRd9SI+cK3UlcVcq/A\nQu0d67aq/LwA/B+34Yq2GtW4pIc83snDPcNpFsnQe0dX8nkb0sejcTf4vlRsfBV1\n9Kr1/87QhXVhfx2Xwh+G8LPLpoi0OmDTP4f9DbMARQKBgQDa1NXRNMehK9XhqX1F\nQ+yCoAa32lD19bF2xPt31Mm5WGnekZDbYJ4Kq3L9xfbPMYOpYC3RKfY7i8XCCcY/\nZ9G5Nyg5W8DC2R4GItgL13hPoaXqiKpTfAyx0WPWBSxggQRIMrL0914FxsSErPtJ\nL+K6mYPoQX8/vyJ36PDEe2OLNQKBgQDM4rh4dNR4YzNJUb/lcrU4ZLpMYprp5ReK\nghan88hLS1N5PXskCYuooBq9wFCUKuc4up6Mn1qmepa60JPxd0j9a5LAX1Mn3Bev\nL+iYA6Mmfe3CbC8pftI/mR6bhpfePH5KJJoLhPbaCkM1oxmOIjsKOL/p0vDf6Qj6\nhf6cD9pWVQKBgAu6DBtB8NC6QKPvKT9k/G+jk7iWgnAr0m7C75bkWEsOad37fv/C\nlbWMqoTe7vL7fEq/VLU4wnE+dEKJs44CSkLaqdUpDZNjfzBk/Z7k1RWvW+zNlhMT\nOrrstaTqcg5Z25ji3qQx/V/h3vYdLvolDslhIKh5mhAYdghm+0AMPLFhAoGAZUgK\nYtl2EtEPEEaOMxGiTe9VPN9drxPlsD2gj4PuVnI1IHDpB6aEWGZU8co4yxXuWVe/\nespnmHZvPohPKgWKmmPsFpbI16JwPtTTCRp7M1L7DqpGIiAkNPYvcDh3qI+E6ofv\ncpRXJu/9y20F/AIl52aoUCFLm5RqMNW+SE155EUCgYEApiRv6KydbKJUoTOAkgG/\nKTRgLFPLXFmZ3YxvcBwQl3CmxrWX0DOV4LLMePAopYNhi37wEG9a2/T3KH9kBg2K\nQwLjoLd2Tjw9aSLGjsyi4RTYJhkQW82xowszeNTYOZC3W9+Y65pBlQgn9qac4mEG\ncTefLLdwyYXLtHwa9pRgbSQ=\n-----END PRIVATE KEY-----\n",
+  private_key_id: "bb4a8b093c51639bf022c0bc83fc337b52317a81",
+  client_email:  "firebase-adminsdk-pv38g@iaan-4a273.iam.gserviceaccount.com",
+  client_id: "102148604487505023129",
+  auth_uri: "https://accounts.google.com/o/oauth2/auth",
+  token_uri: "https://oauth2.googleapis.com/token",
+  auth_provider_x509_cert_url:  "https://www.googleapis.com/oauth2/v1/certs",
+  client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-pv38g%40iaan-4a273.iam.gserviceaccount.com",
+};
+// @ts-ignore
+const credential = cert(serviceAccount);
 export const authOptions: NextAuthOptions = {
-  // @ts.ignore
+
   adapter: FirestoreAdapter({
-    // @ts-ignore
-      credential: cert(credentials)
+
+      credential:credential
     }),
 
   providers: [
