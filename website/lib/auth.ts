@@ -67,7 +67,13 @@ const ses = new SES(awsConfig)
 
 export const authOptions: NextAuthOptions = {
   // @ts.ignore
-  adapter: FirestoreAdapter( firestore ),
+  adapter: FirestoreAdapter({
+      credential: cert({
+        project_id: process.env.PROJECT_ID,
+        client_email: process.env.CLIENT_EMAIL,
+        private_key: process.env.PRIVATE_KEY,
+      })
+    }),
 
   providers: [
     LinkedInProvider({
