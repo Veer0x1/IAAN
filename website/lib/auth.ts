@@ -1,7 +1,7 @@
 import * as process from "process"
 import { db, firestore } from "@/firebase/config"
 import { FirestoreAdapter } from "@next-auth/firebase-adapter"
-import { SES } from "@aws-sdk/client-ses";
+import { cert } from "firebase-admin/app"
 import {
   addDoc,
   collection,
@@ -12,106 +12,23 @@ import {
   where,
 } from "firebase/firestore"
 import { NextAuthOptions } from "next-auth"
-import EmailProvider from "next-auth/providers/email"
 import LinkedInProvider from "next-auth/providers/linkedin"
-import { siteConfig } from "@/config/site"
-import { cert } from "firebase-admin/app";
-import { ServiceAccount } from 'firebase-admin';
-const awsConfig = {
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: "ap-south-1",
-}
 
-const ses = new SES(awsConfig)
-//  const allkey={
-//   type: process.env.TYPE,
-//   project_id:process.env.PROJECT_ID,
-// private_key_id:process.env.PRIVATE_KEY_ID,
-// private_key:process.env.PRIVATE_KEY,
-// client_email:process.env.CLIENT_EMAIL,
-// client_id:process.env.CLIENT_ID,
-// auth_uri:process.env.AUTH_URI,
-// token_uri:process.env.TOKEN_URI,
-// auth_provider_x509_cert_url:process.env.AUTH_PROVIDER_X509_CERT_URL,
-// client_x509_cert_url:process.env.CLIENT_X509_CERT_URL,
-// universe_domain:process.env.UNIVERSE_DOMAIN
-// }
-
-
-
-const serviceAccount = {
-  type: process.env.TYPE,
-  project_id: process.env.PROJECT_ID,
-  private_key:process.env.PRIVATE_KEY,
-  private_key_id:process.env.PRIVATE_KEY_ID,
-  client_email: process.env.CLIENT_EMAIL,
-  client_id:process.env.CLIENT_ID,
-  auth_uri: process.env.AUTH_URI,
-  token_uri: process.env.TOKEN_URI,
-  auth_provider_x509_cert_url:process.env.AUTH_PROVIDER_X509_CERT_URL,
-  client_x509_cert_url:process.env.CLIENT_X509_CERT_URL,
-};
-// @ts-ignore
-const credential = cert(serviceAccount);
 export const authOptions: NextAuthOptions = {
-
+  // @ts.ignore
   adapter: FirestoreAdapter({
-
-      credential:credential
+    credential: cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY,
     }),
+  }),
 
   providers: [
     LinkedInProvider({
       clientId: process.env.LINKEDIN_CLIENT_ID!,
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
       allowDangerousEmailAccountLinking: true,
-    }),
-    EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: parseInt(process.env.EMAIL_SERVER_PORT!),
-        secure: true, // Set to true if your server requires a secure connection (e.g., TLS)
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
-      from: process.env.EMAIL_FROM,
-      sendVerificationRequest: async ({ identifier, url, provider }) => {
-        const querySnapshot = await getDocs(
-          query(collection(db, "users"), where("email", "==", identifier))
-        )
-        const dbUser = querySnapshot.docs[0]
-
-        if (dbUser) {
-          try {
-            const params = {
-              Source: process.env.EMAIL_FROM,
-              Destination: {
-                ToAddresses: [identifier],
-              },
-              Subject: "Sign in to " + siteConfig.name,
-              Body: {
-                Html: {
-                  Charset: "UTF-8",
-                  Data: `<h1>Sign in to ${siteConfig.name}</h1>`,
-                },
-              },
-            }
-
-            // @ts-ignore
-            const sendEmail = ses.sendEmail(params)
-            sendEmail.then((data) => {
-              console.log("email submitted to SES", data)
-            })
-          } catch (error) {
-            console.log(error)
-          }
-        } else {
-          throw new Error("User not found")
-        }
-      },
     }),
   ],
   pages: {
