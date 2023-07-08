@@ -44,7 +44,7 @@ export const InvestorCard: FunctionComponent<Props> = (props: Props) => {
     <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {filter.map((data, index) => {
         return (
-          <Card className="w-60 " key={index}>
+          <Card className="w-70 " key={index}>
             <CardContent>
               <div className="-mx-5 mt-2 flex justify-center">
                 <Image
@@ -67,6 +67,8 @@ export const InvestorCard: FunctionComponent<Props> = (props: Props) => {
             </CardHeader>
             <CardFooter className="flex justify-center ">
               <Personaldetail detail={data} />
+        {data.mentorship && <Button variant="outline" className="mx-2">Mentorship</Button>}
+
             </CardFooter>
           </Card>
         )

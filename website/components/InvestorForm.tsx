@@ -86,14 +86,18 @@ type FormValues = z.infer<typeof investorFormSchema>
 
 const sectors = [
   { label: "FinTech", value: "fintech" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
+  { label: "Health Care", value: "health care" },
+  { label: "Agriculture", value: "agriculture" },
+  { label: "Real Estate", value: "real estate" },
+  { label: "Retail", value: "retail" },
+  { label: "E-Commerce", value: "e-commerce" },
+  { label: "EdTech", value: "edtech" },
+  { label: "BioTech", value: "biotech" },
+  { label: "Logistics", value: "logistics" },
+  { label: "Analytics", value: "analytics" },
+  { label: "AI", value: "ai" },
+  { label: "IoT", value: "iot" },
+
 ] as const
 
 const InvestorForm: FunctionComponent<Props> = () => {

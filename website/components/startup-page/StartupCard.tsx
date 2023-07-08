@@ -24,10 +24,10 @@ const StartupCard: FunctionComponent<Props> = ({ startup, searchText }) => {
       <div className="flex justify-center ">
         <Image
           width={300}
-          height={400}
+          height={200}
           src={startup.websitePhoto}
           alt={startup.firstName + " Logo"}
-          className={cn("  rounded-md")}
+          className={cn("h-[10rem] rounded-md")}
         />
       </div>
       <div className="flex items-center">
@@ -61,6 +61,7 @@ const StartupCard: FunctionComponent<Props> = ({ startup, searchText }) => {
       </p>
       <div className="mt-5 flex max-w-full flex-row justify-between gap-2">
         <Startupdetails detail={startup} />
+         {startup.mentorship &&  <Button variant="outline" className={"px-5"} >Mentorship required</Button>}
       </div>
     </div>
   )

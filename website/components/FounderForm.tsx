@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { db, storage } from "@/firebase/config"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { countries } from "countries-list"
+import { Switch } from "@/components/ui/switch"
 import { Timestamp, doc, setDoc ,
   collection,
   getDocs,
@@ -86,6 +87,7 @@ const founderFormSchema = z.object({
   comDescription: z
     .string({ required_error: "Company description is required" })
     .nonempty({ message: "Company description is required" }),
+    mentorship: z.boolean().default(false),
   file: z
     .object({
       image: z
@@ -104,14 +106,18 @@ export type FormType = z.infer<typeof founderFormSchema>
 const countryOptions = Object.values(countries)
 const sectors = [
   { label: "FinTech", value: "fintech" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
+  { label: "Health Care", value: "health care" },
+  { label: "Agriculture", value: "agriculture" },
+  { label: "Real Estate", value: "real estate" },
+  { label: "Retail", value: "retail" },
+  { label: "E-Commerce", value: "e-commerce" },
+  { label: "EdTech", value: "edtech" },
+  { label: "BioTech", value: "biotech" },
+  { label: "Logistics", value: "logistics" },
+  { label: "Analytics", value: "analytics" },
+  { label: "AI", value: "ai" },
+  { label: "IoT", value: "iot" },
+
 ] as const
 
 const FounderForm: FunctionComponent<Props> = () => {
@@ -464,6 +470,26 @@ const FounderForm: FunctionComponent<Props> = () => {
                     <FormMessage />
                   </FormItem>
                 </>
+              )}
+            />
+           < FormField
+              control={form.control}
+              name="mentorship"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">Mentorship</FormLabel>
+                    <FormDescription>
+                      Want to take mentorship from investors?
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
               )}
             />
             <Button type="submit" className={"m-4 ml-6"}>

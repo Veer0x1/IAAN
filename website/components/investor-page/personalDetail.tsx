@@ -2,7 +2,7 @@
 
 import React, { FunctionComponent } from "react"
 import { FormValues } from "@/schema/investorFormSchema"
-
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -24,7 +24,7 @@ const Personaldetail: FunctionComponent<Props> = ({ detail }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Know more</Button>
+        <Button variant="outline">Details</Button>
       </DialogTrigger>
       <DialogContent className="min-w-max">
         <DialogHeader>
@@ -39,8 +39,10 @@ const Personaldetail: FunctionComponent<Props> = ({ detail }) => {
             <span className="text-muted-foreground">{detail.phone}</span>
           </div>
           <div>
+          <Link href={detail.linkedIn} target="_blank" >
             <span className="font-medium">LinkedIn Id:</span>{" "}
             <span className="text-muted-foreground"> {detail.linkedIn}</span>
+            </Link>
           </div>
           <div>
             <span className="font-medium">Email:</span>{" "}
