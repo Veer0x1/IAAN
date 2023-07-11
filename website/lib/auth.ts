@@ -64,7 +64,7 @@ export const authOptions: NextAuthOptions = {
         }
         return true
       } catch (error) {
-        return `/error`
+        return `/${error}`
       }
     },
 
