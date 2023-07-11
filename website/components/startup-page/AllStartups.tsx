@@ -38,7 +38,7 @@ const AllStartups: FunctionComponent<Props> = ({ searchText, startups }) => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [router.query.category])
   useEffect(() => {
-    if (searchText !== undefined) {
+    if (searchText !== undefined && searchText!=="") {
       const filtered = startups.filter((data) =>
         data.companyName.toLowerCase().startsWith(searchText?.toLowerCase())
       )
