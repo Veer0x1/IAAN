@@ -6,6 +6,7 @@ import { categories } from "@/lib/startup-categories"
 import { FormType } from "@/components/FounderForm"
 import CategoryTab from "@/components/startup-page/CategoryTab"
 import StartupCard from "@/components/startup-page/StartupCard"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface OwnProps {
   searchText?: string
@@ -72,9 +73,17 @@ const AllStartups: FunctionComponent<Props> = ({ searchText, startups }) => {
         className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
         ref={startupsContainerRef}
       >
-        {filter.map((startup, index) => (
+        {filter.length>0?filter.map((startup, index) => (
           <StartupCard key={index} startup={startup} searchText={searchText} />
-        ))}{" "}
+        )):  <div className="border-subtle  relative flex  flex-col rounded-md border p-5">
+          <div className=" flex items-center justify-center">
+            <Skeleton className=" w-full h-full  p-10 m-2" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-2 w-[150px] m-2" />
+            <Skeleton className="h-2 w-[100px] m-2" />
+          </div>
+        </div>}
       </div>
     </div>
   )

@@ -2,7 +2,7 @@
 
 import React, { FunctionComponent, useState } from "react"
 import Image from "next/image"
-
+import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { FormType } from "@/components/FounderForm"
@@ -22,13 +22,13 @@ const StartupCard: FunctionComponent<Props> = ({ startup, searchText }) => {
   return (
     <div className="border-subtle relative flex  flex-col rounded-md border p-5">
       <div className="flex justify-center ">
-        <Image
+        {startup.websitePhoto.length>0? <Image
           width={300}
           height={200}
           src={startup.websitePhoto}
           alt={startup.firstName + " Logo"}
           className={cn("h-[10rem] rounded-md")}
-        />
+        />:<div><Skeleton className=" w-[300px] h-[200px]  p-10 m-2" /></div>}
       </div>
       <div className="flex items-center">
         <h3 className="text-emphasis mt-1 font-medium">

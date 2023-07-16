@@ -3,11 +3,11 @@ import { LandingPageConfig } from "@/types"
 export const landingPageConfig: LandingPageConfig = {
   mainNav: [
     {
-      title: "Raise funds",
+      title: "Investors",
       href: "/investor",
     },
     {
-      title: "Invest",
+      title: "Startups",
       href: "/startups",
     },
     {

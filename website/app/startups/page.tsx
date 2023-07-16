@@ -76,7 +76,7 @@ const StartupPage: FunctionComponent<Props> = (props) => {
         </>
       ) : (
         <div className="flex items-center justify-center text-lg font-bold">
-          Loading...
+          Login Please
         </div>
       )}
     </>

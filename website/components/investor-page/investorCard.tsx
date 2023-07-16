@@ -4,7 +4,7 @@ import React, { FunctionComponent, useState } from "react"
 import Image from "next/image"
 import defaultImage from "@/public/assests/defaultImage.png"
 import { FormValues } from "@/schema/investorFormSchema"
-
+import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -42,7 +42,7 @@ export const InvestorCard: FunctionComponent<Props> = (props: Props) => {
   }, [props.searchName, props.detail])
   return (
     <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {filter.map((data, index) => {
+      {filter.length>0?filter.map((data, index) => {
         return (
           <Card className="w-70 " key={index}>
             <CardContent>
@@ -72,7 +72,15 @@ export const InvestorCard: FunctionComponent<Props> = (props: Props) => {
             </CardFooter>
           </Card>
         )
-      })}
+      }):<div className="border-subtle  relative flex w-60  flex-col rounded-md border p-5">
+        <div className=" flex items-center justify-center">
+          <Skeleton className=" w-[100px] h-[100px] rounded-full" />
+        </div>
+        <div className="space-y-2 h-32 flex flex-col justify-center">
+          <Skeleton className="h-2 w-[150px] m-2" />
+          <Skeleton className="h-2 w-[100px] m-2" />
+        </div>
+      </div>}
     </div>
   )
 }
