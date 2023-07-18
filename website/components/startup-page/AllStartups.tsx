@@ -3,10 +3,10 @@ import { useRouter } from "next/navigation"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
 
 import { categories } from "@/lib/startup-categories"
+import { Skeleton } from "@/components/ui/skeleton"
 import { FormType } from "@/components/FounderForm"
 import CategoryTab from "@/components/startup-page/CategoryTab"
 import StartupCard from "@/components/startup-page/StartupCard"
-import { Skeleton } from "@/components/ui/skeleton"
 
 interface OwnProps {
   searchText?: string
@@ -39,7 +39,7 @@ const AllStartups: FunctionComponent<Props> = ({ searchText, startups }) => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [router.query.category])
   useEffect(() => {
-    if (searchText !== undefined && searchText!=="") {
+    if (searchText !== undefined && searchText !== "") {
       const filtered = startups.filter((data) =>
         data.companyName.toLowerCase().startsWith(searchText?.toLowerCase())
       )
@@ -73,17 +73,25 @@ const AllStartups: FunctionComponent<Props> = ({ searchText, startups }) => {
         className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
         ref={startupsContainerRef}
       >
-        {filter.length>0?filter.map((startup, index) => (
-          <StartupCard key={index} startup={startup} searchText={searchText} />
-        )):  <div className="border-subtle  relative flex  flex-col rounded-md border p-5">
-          <div className=" flex items-center justify-center">
-            <Skeleton className=" w-full h-full  p-10 m-2" />
+        {filter.length > 0 ? (
+          filter.map((startup, index) => (
+            <StartupCard
+              key={index}
+              startup={startup}
+              searchText={searchText}
+            />
+          ))
+        ) : (
+          <div className="border-subtle  relative flex  flex-col rounded-md border p-5">
+            <div className=" flex items-center justify-center">
+              <Skeleton className=" m-2 h-full  w-full p-10" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="m-2 h-2 w-[150px]" />
+              <Skeleton className="m-2 h-2 w-[100px]" />
+            </div>
           </div>
-          <div className="space-y-2">
-            <Skeleton className="h-2 w-[150px] m-2" />
-            <Skeleton className="h-2 w-[100px] m-2" />
-          </div>
-        </div>}
+        )}
       </div>
     </div>
   )
