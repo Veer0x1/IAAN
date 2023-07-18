@@ -2,9 +2,10 @@
 
 import React, { FunctionComponent, useState } from "react"
 import Image from "next/image"
-import { Skeleton } from "@/components/ui/skeleton"
+
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 import { FormType } from "@/components/FounderForm"
 import Startupdetails from "@/components/startup-page/Startupdetails"
 
@@ -22,16 +23,22 @@ const StartupCard: FunctionComponent<Props> = ({ startup, searchText }) => {
   return (
     <div className="border-subtle relative flex  flex-col rounded-md border p-5">
       <div className="flex justify-center ">
-        {startup.websitePhoto.length>0? <Image
-          width={300}
-          height={200}
-          src={startup.websitePhoto}
-          alt={startup.firstName + " Logo"}
-          className={cn("h-[10rem] rounded-md")}
-        />:<div><Skeleton className=" w-[300px] h-[200px]  p-10 m-2" /></div>}
+        {startup.websitePhoto.length > 0 ? (
+          <Image
+            width={300}
+            height={200}
+            src={startup.websitePhoto}
+            alt={startup.firstName + " Logo"}
+            className={cn("h-[10rem] rounded-md")}
+          />
+        ) : (
+          <div>
+            <Skeleton className=" m-2 h-[200px]  w-[300px] p-10" />
+          </div>
+        )}
       </div>
       <div className="flex items-center">
-        <h3 className="text-emphasis mt-1 font-medium">
+        <h3 className="text-emphasis mt-1 w-full font-medium">
           {searchTextIndex != undefined && searchText ? (
             <>
               {startup.firstName.substring(0, searchTextIndex)}
@@ -44,7 +51,10 @@ const StartupCard: FunctionComponent<Props> = ({ startup, searchText }) => {
               {startup.firstName.substring(searchTextIndex + searchText.length)}
             </>
           ) : (
-            startup.companyName
+            <div className={"flex w-full justify-between"}>
+              <h2>{startup.companyName}</h2>
+              {startup.mentorship && <Badge>Looking for Mentorship</Badge>}
+            </div>
           )}
         </h3>
       </div>
@@ -61,7 +71,6 @@ const StartupCard: FunctionComponent<Props> = ({ startup, searchText }) => {
       </p>
       <div className="mt-5 flex max-w-full flex-row justify-between gap-2">
         <Startupdetails detail={startup} />
-         {startup.mentorship &&  <Button variant="outline" className={"px-5"} >Mentorship required</Button>}
       </div>
     </div>
   )
