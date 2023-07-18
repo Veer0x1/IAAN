@@ -32,6 +32,9 @@ if you dont have pnpm installed then install it using
 ```bash
 npm install -g pnpm
 ```
+```bash
+pnpm dev
+```
 Create a .env.local file in the root of website directory and add variables
 ```bash
 LINKEDIN_CLIENT_ID
