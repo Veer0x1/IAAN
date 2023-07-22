@@ -1,6 +1,7 @@
 import React from "react"
-import { useSession } from "next-auth/react"
-import {TeamComponent} from "@/components/TeamComponent";
+
+import { TeamComponent } from "@/components/TeamComponent"
+
 export interface Album {
   name: string
   artist: string
@@ -38,13 +39,15 @@ const Page = () => {
   return (
     <>
       <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-           <h1 className={"justify-center flex text-[3rem] -mt-10"}>Meet The Team</h1>
+        <h1 className={"-mt-10 flex justify-center text-[3rem]"}>
+          Meet The Team
+        </h1>
         <div className="flex flex-wrap justify-center ">
           {listenNowAlbums.map((album) => (
             <TeamComponent
               key={album.name}
               album={album}
-              className="w-[200px] m-4"
+              className="m-4 w-[200px]"
               aspectRatio="portrait"
               width={200}
               height={150}
@@ -54,7 +57,7 @@ const Page = () => {
             <TeamComponent
               key={album.name}
               album={album}
-              className="w-[200px] m-4"
+              className="m-4 w-[200px]"
               aspectRatio="portrait"
               width={200}
               height={150}
