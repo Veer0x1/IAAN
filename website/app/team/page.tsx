@@ -33,6 +33,24 @@ const listenNowAlbums: Album[] = [
     cover:
       "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80",
   },
+  {
+    name: "Stateful Symphony",
+    artist: "Beth Binary",
+    cover:
+      "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80",
+  },
+  {
+    name: "Stateful Symphony",
+    artist: "Beth Binary",
+    cover:
+      "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80",
+  },
+  {
+    name: "Stateful Symphony",
+    artist: "Beth Binary",
+    cover:
+      "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80",
+  },
 ]
 
 const Page = () => {
@@ -43,16 +61,6 @@ const Page = () => {
           Meet The Team
         </h1>
         <div className="flex flex-wrap justify-center ">
-          {listenNowAlbums.map((album) => (
-            <TeamComponent
-              key={album.name}
-              album={album}
-              className="m-4 w-[200px]"
-              aspectRatio="portrait"
-              width={200}
-              height={150}
-            />
-          ))}
           {listenNowAlbums.map((album) => (
             <TeamComponent
               key={album.name}
