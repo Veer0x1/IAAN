@@ -1,21 +1,13 @@
-'use-client'
-import React from 'react'
+"use-client"
+
+import React from "react"
 import Image from "next/image"
-import { ListMusic, PlusCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 import { cn } from "@/lib/utils"
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-  ContextMenuTrigger,
-} from "@/components/ui/context-menu"
+import { Button } from "@/components/ui/button"
+import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu"
+import { Icons } from "@/components/icons"
+
 export interface Album {
   name: string
   artist: string
@@ -29,7 +21,14 @@ interface TeamComponentProps extends React.HTMLAttributes<HTMLDivElement> {
   height?: number
 }
 
-export function TeamComponent({album, aspectRatio = "portrait", width, height, className, ...props}: TeamComponentProps) {
+export function TeamComponent({
+  album,
+  aspectRatio = "portrait",
+  width,
+  height,
+  className,
+  ...props
+}: TeamComponentProps) {
   return (
     <div className={cn("grid gap-4", className)} {...props}>
       <ContextMenu>
@@ -41,17 +40,21 @@ export function TeamComponent({album, aspectRatio = "portrait", width, height, c
               width={width}
               height={height}
               className={cn(
-                "h-auto w-auto object-cover transition-all ease-in-out duration-500 hover:scale-110",
+                "h-auto w-auto object-cover transition-all duration-500 ease-in-out hover:scale-110",
                 aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square"
               )}
             />
           </div>
         </ContextMenuTrigger>
-
       </ContextMenu>
       <div className="space-y-1 text-sm">
         <h3 className="font-medium">{album.name}</h3>
-        <Button variant={"outline"} className="text-sm -p-y-4 transition-all ease-in-out duration-500 hover:text-blue-400">LinkedIn</Button>
+        <Button
+          variant={"outline"}
+          className="-p-y-4 text-sm transition-all duration-500 ease-in-out hover:text-blue-400"
+        >
+          <Icons.linkedin className="h-4 w-4" />
+        </Button>
       </div>
     </div>
   )
