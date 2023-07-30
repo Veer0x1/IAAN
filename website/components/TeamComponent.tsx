@@ -1,7 +1,8 @@
-"use-client"
+"use client"
 
 import React from "react"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
+import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -10,8 +11,10 @@ import { Icons } from "@/components/icons"
 
 export interface Album {
   name: string
-  artist: string
-  cover: string
+  image: StaticImageData
+  position: string
+  email: string
+  linkedin: string
 }
 
 interface TeamComponentProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -35,12 +38,12 @@ export function TeamComponent({
         <ContextMenuTrigger>
           <div className="overflow-hidden rounded-md">
             <Image
-              src={album.cover}
+              src={album.image}
               alt={album.name}
               width={width}
               height={height}
               className={cn(
-                "h-auto w-auto object-cover transition-all duration-500 ease-in-out hover:scale-110",
+                " object-cover transition-all duration-500 ease-in-out hover:scale-110",
                 aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square"
               )}
             />
@@ -49,12 +52,22 @@ export function TeamComponent({
       </ContextMenu>
       <div className="space-y-1 text-sm">
         <h3 className="font-medium">{album.name}</h3>
-        <Button
-          variant={"outline"}
-          className="-p-y-4 text-sm transition-all duration-500 ease-in-out hover:text-blue-400"
-        >
-          <Icons.linkedin className="h-4 w-4" />
-        </Button>
+        <Link href={album.linkedin} target={"_blank"}>
+          <Button
+            variant={"outline"}
+            className="-p-y-4 m-2 text-sm transition-all duration-500 ease-in-out hover:text-red-400"
+          >
+            <Icons.linkedin className="h-4 w-4" />
+          </Button>
+        </Link>
+        <Link href={album.email} target={"_blank"}>
+          <Button
+            variant={"outline"}
+            className="-p-y-4 m-2 text-sm transition-all duration-500 ease-in-out hover:text-red-400"
+          >
+            <Icons.mail className="h-4 w-4" />
+          </Button>
+        </Link>
       </div>
     </div>
   )
