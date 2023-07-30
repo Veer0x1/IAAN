@@ -51,11 +51,11 @@ export function TeamComponent({
         </ContextMenuTrigger>
       </ContextMenu>
       <div className="space-y-1 text-sm">
-        <h3 className="font-medium">{album.name}</h3>
+        <h3 className="font-medium">{album.name.toUpperCase()}</h3>
         <Link href={album.linkedin} target={"_blank"}>
           <Button
             variant={"outline"}
-            className="-p-y-4 m-2 text-sm transition-all duration-500 ease-in-out hover:text-red-400"
+            className="-p-y-4 m-2 text-sm transition-all duration-500 ease-in-out hover:text-blue-400"
           >
             <Icons.linkedin className="h-4 w-4" />
           </Button>
