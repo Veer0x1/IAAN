@@ -4,7 +4,7 @@ import * as React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
-import logo from "@/public/assests/Black Cell2 (1).svg"
+import logo from "@/public/assests/DarkLogo.svg"
 
 import { MainNavItem } from "types"
 import { siteConfig } from "@/config/site"
