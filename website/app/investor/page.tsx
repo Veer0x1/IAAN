@@ -81,7 +81,7 @@ const InvestorPage: FunctionComponent<Props> = (props) => {
           <InvestorCard detail={collectionData} searchName={searchText} />
         </>
       ) : (
-        <div className="flex justify-center items-center font-bold text-lg">
+        <div className="flex items-center justify-center text-lg font-bold">
           Loading...
         </div>
       )}
