@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore"
 import { NextAuthOptions } from "next-auth"
 import LinkedInProvider from "next-auth/providers/linkedin"
+// import {toast} from "@/components/ui/use-toast";
 
 export const authOptions: NextAuthOptions = {
   // @ts.ignore
@@ -60,7 +61,8 @@ export const authOptions: NextAuthOptions = {
           await updateDoc(docRef, { image: photo })
         }
         if (querySnapshot1.empty && querySnapshot2.empty) {
-          return "/register/founder"
+          // toast({title: "Upload is paused"})
+          return "/join_us"
         }
         return true
       } catch (error) {
@@ -86,7 +88,6 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           image: user.image,
           emailVerified: true,
-          // namekumar:"rahul"
         })
 
         if (user) {

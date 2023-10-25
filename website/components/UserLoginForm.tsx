@@ -75,49 +75,50 @@ export default function UserLoginForm() {
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Log In</CardTitle>
         <CardDescription>
-          Enter your email to sign in to your account
+          {/*Enter your email to sign in to your account*/}
+          Login with your linkedin
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid gap-2">
-            <div className={"grid gap-1"}>
-              <Label htmlFor="email" className={"m-1 text-sm font-light"}>
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="example@provider.com"
-                autoCapitalize={"none"}
-                autoCorrect="off"
-                disabled={isLoading || isLinkedinLoading}
-                {...register("email")}
-              />
-              {errors?.email && (
-                <p className="px-1 text-xs text-red-600">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-          </div>
+        {/*<form onSubmit={handleSubmit(onSubmit)}>*/}
+        {/*  <div className="grid gap-2">*/}
+        {/*    <div className={"grid gap-1"}>*/}
+        {/*      <Label htmlFor="email" className={"m-1 text-sm font-light"}>*/}
+        {/*        Email*/}
+        {/*      </Label>*/}
+        {/*      <Input*/}
+        {/*        id="email"*/}
+        {/*        type="email"*/}
+        {/*        placeholder="example@provider.com"*/}
+        {/*        autoCapitalize={"none"}*/}
+        {/*        autoCorrect="off"*/}
+        {/*        disabled={isLoading || isLinkedinLoading}*/}
+        {/*        {...register("email")}*/}
+        {/*      />*/}
+        {/*      {errors?.email && (*/}
+        {/*        <p className="px-1 text-xs text-red-600">*/}
+        {/*          {errors.email.message}*/}
+        {/*        </p>*/}
+        {/*      )}*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
 
-          <Button type={"submit"} className="mt-4 w-full" disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Sign In with Email
-          </Button>
-        </form>
+        {/*  <Button type={"submit"} className="mt-4 w-full" disabled={isLoading}>*/}
+        {/*    {isLoading && (*/}
+        {/*      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />*/}
+        {/*    )}*/}
+        {/*    Sign In with Email*/}
+        {/*  </Button>*/}
+        {/*</form>*/}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
+          {/*<div className="relative flex justify-center text-xs uppercase">*/}
+          {/*  <span className="bg-background px-2 text-muted-foreground">*/}
+          {/*    Or continue with*/}
+          {/*  </span>*/}
+          {/*</div>*/}
         </div>
 
         <div className="grid grid-cols-1 gap-6">
@@ -147,7 +148,7 @@ export default function UserLoginForm() {
           )}
         >
           <Link
-            href={"/register"}
+            href={"/login"}
             className="hover:text-brand underline underline-offset-4"
           >
             Don&apos;t have an account? Sign Up

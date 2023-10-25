@@ -117,6 +117,7 @@ const sectors = [
   { label: "Analytics", value: "analytics" },
   { label: "AI", value: "ai" },
   { label: "IoT", value: "iot" },
+  { label: "Other", value: "other" },
 
 ] as const
 

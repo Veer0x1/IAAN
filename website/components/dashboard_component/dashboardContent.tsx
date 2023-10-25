@@ -17,11 +17,11 @@ import {
 import { FormType } from "@/components/FounderForm"
 
 type DetailForm = FormType | FormValues
-type PropType = DetailForm & { here: string }
+type PropType = DetailForm & { here: string ,companyName:string,comDescription:string}
 interface OwnProps {}
 type CombinedType =FormType | FormValues
 type Props = OwnProps & {
-  personData: CombinedType & { here: string}
+  personData: CombinedType & { here: string ,companyName:string,comDescription:string}
 
 }
 export const DashboardContent: FunctionComponent<Props> = ({ personData }) => {

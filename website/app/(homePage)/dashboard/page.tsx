@@ -18,7 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { FormType } from "@/components/FounderForm"
 import { DashboardContent } from "@/components/dashboard_component/dashboardContent"
 type CombinedType =FormType | FormValues
-type Propdata = CombinedType & { here: string,commitment:string}
+type Propdata = CombinedType & { here: string,commitment:string,companyName:string,comDescription:string}
 
 const Page = () => {
   const [fetchData, setFetchData] = React.useState<Propdata>({} as Propdata)

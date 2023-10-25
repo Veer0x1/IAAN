@@ -31,7 +31,7 @@ const ContactUs: FunctionComponent<Props> = (props) => {
             <div className="space-y-2">
               <h3 className="font-bold">Phone number</h3>
               <p className="text-sm text-muted-foreground">
-                <a href="tel:+919587887413">Call us at +91 9587887413</a>
+                <a href="tel:+919120787959">Call us at +91 9120787959</a>
               </p>
             </div>
           </div>

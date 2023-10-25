@@ -26,7 +26,12 @@ const NavbarAction: FunctionComponent<Props> = (props) => {
   return (
     <>
       {session?.user && status === "authenticated" ? (
+        <div >
+          <Link href="/dashboard" className="mr-8 font-medium text-muted-foreground  hover:text-foreground ">
+            Dashboard
+          </Link>
         <UserNav />
+          </div>
       ) : (
         <div>
           <Button
