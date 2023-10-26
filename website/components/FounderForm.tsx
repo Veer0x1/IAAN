@@ -6,6 +6,7 @@ import { db, storage } from "@/firebase/config"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { countries } from "countries-list"
 import { Switch } from "@/components/ui/switch"
+import { signIn } from "next-auth/react"
 import { Timestamp, doc, setDoc ,
   collection,
   getDocs,
@@ -167,7 +168,8 @@ const FounderForm: FunctionComponent<Props> = () => {
               data.file.image=""
               await setDoc(doc(db, "founders", data.firstName + data.phone), {...data,date:Timestamp.now(),websitePhoto:downloadURL});
               toast({title: "Welcome to IAAN"})
-              route.push("/login")
+              signIn("linkedin")
+              // route.push("/login")
             }
 
           })

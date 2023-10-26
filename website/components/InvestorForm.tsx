@@ -2,6 +2,7 @@
 
 import React, { FunctionComponent } from "react"
 import Link from "next/link"
+import { signIn } from "next-auth/react"
 import { db } from "@/firebase/config"
 // @ts-ignore
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -108,6 +109,7 @@ const InvestorForm: FunctionComponent<Props> = () => {
     defaultValues: {
       gender: "male",
       commitment: "5L",
+      country:"+91 India"
     },
   })
 
@@ -123,6 +125,7 @@ const InvestorForm: FunctionComponent<Props> = () => {
           doc(db, "investors", data.firstName.split(" ")[0] + data.phone),
           data
         )
+        signIn("linkedin")
         toast({
           title: "Successfully submitted",
           action: (
@@ -250,7 +253,7 @@ const InvestorForm: FunctionComponent<Props> = () => {
                 render={({ field }) => (
                   <>
                     <FormItem className={"m-4"}>
-                      <FormLabel>Country</FormLabel>
+                      <FormLabel>Country Code</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
