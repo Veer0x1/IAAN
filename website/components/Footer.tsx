@@ -66,7 +66,7 @@ const Footer: FunctionComponent<Props> = () => {
             <h5 className='text-2xl font-semibold flex justify-start text-foreground' style={{ margin: '0', padding: '0' }}>Important</h5>
             <Row >
               {/*@ts-ignore*/}
-              <ul style={{ listStyleType:'disc' ,margin: 0, padding: 0}} className={'md:text-lg'}>
+              <ul style={{ listStyleType:'disc' ,margin: 0, padding: 0}} className={'md:text-lg list-inside'}>
                 <li>
                   <a href="https://ecelliitbhu.com" rel="noreferrer" target="_blank">
                     E-Cell Home
