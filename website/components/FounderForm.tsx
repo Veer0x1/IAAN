@@ -175,10 +175,11 @@ const FounderForm: FunctionComponent<Props> = () => {
           })
         }
       )}
-      else
-      {
-        toast({title: "You have already filled the form!!!"})
-        route.push("/login")
+      else {
+        toast({
+          title: "Email already exists",
+          description: "Please use another email or sign in to your account.",
+        })
       }
     } catch (error: any) {
       toast({ title: error.message })
@@ -371,62 +372,99 @@ const FounderForm: FunctionComponent<Props> = () => {
             <div className={"md:flex "}>
               <FormField
                 control={form.control}
-                name="sector"
+                name={"sector"}
                 render={({ field }) => (
-                  <FormItem className={"flex flex-col p-2"}>
-                    <FormLabel>Sector</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-[200px] justify-between",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value
-                              ? sectors.find(
-                                  (language) => language.value === field.value
-                                )?.label
-                              : "Select Sector"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput placeholder="Search language..." />
-                          <CommandEmpty>No language found.</CommandEmpty>
-                          <CommandGroup>
-                            {sectors.map((language) => (
-                              <CommandItem
-                                value={language.value}
-                                key={language.value}
-                                onSelect={(value) => {
-                                  form.setValue("sector", value)
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    language.label === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {language.label}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
+                  <>
+                    <FormItem className="mt-[1rem]" >
+                      <FormLabel>Sector</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="w-[200px]">
+                            <SelectValue placeholder="Select Sector" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <ScrollArea className={"h-72 w-48"}>
+                              {sectors.map((sector, index) => {
+                                return (
+                                  <SelectItem
+                                    key={index}
+                                    value={sector.value}
+                                  >
+                                    <span className="capitalize"> {sector.value}</span>
+                                  </SelectItem>
+                                )
+                              })}
+                            </ScrollArea>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  </>
                 )}
               />
+
+              {/*<FormField*/}
+              {/*  control={form.control}*/}
+              {/*  name="sector"*/}
+              {/*  render={({ field }) => (*/}
+              {/*    <FormItem className={"flex flex-col p-2"}>*/}
+              {/*      <FormLabel>Sector</FormLabel>*/}
+              {/*      <Popover>*/}
+              {/*        <PopoverTrigger asChild>*/}
+              {/*          <FormControl>*/}
+              {/*            <Button*/}
+              {/*              variant="outline"*/}
+              {/*              role="combobox"*/}
+              {/*              className={cn(*/}
+              {/*                "w-[200px] justify-between",*/}
+              {/*                !field.value && "text-muted-foreground"*/}
+              {/*              )}*/}
+              {/*            >*/}
+              {/*              {field.value*/}
+              {/*                ? sectors.find(*/}
+              {/*                    (language) => language.value === field.value*/}
+              {/*                  )?.label*/}
+              {/*                : "Select Sector"}*/}
+              {/*              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />*/}
+              {/*            </Button>*/}
+              {/*          </FormControl>*/}
+              {/*        </PopoverTrigger>*/}
+              {/*        <PopoverContent className="w-[200px] p-0">*/}
+              {/*          <Command>*/}
+              {/*            <CommandInput placeholder="Search language..." />*/}
+              {/*            <CommandEmpty>No language found.</CommandEmpty>*/}
+              {/*            <CommandGroup>*/}
+              {/*              {sectors.map((language) => (*/}
+              {/*                <CommandItem*/}
+              {/*                  value={language.value}*/}
+              {/*                  key={language.value}*/}
+              {/*                  onSelect={(value) => {*/}
+              {/*                    form.setValue("sector", value)*/}
+              {/*                  }}*/}
+              {/*                >*/}
+              {/*                  <Check*/}
+              {/*                    className={cn(*/}
+              {/*                      "mr-2 h-4 w-4",*/}
+              {/*                      language.label === field.value*/}
+              {/*                        ? "opacity-100"*/}
+              {/*                        : "opacity-0"*/}
+              {/*                    )}*/}
+              {/*                  />*/}
+              {/*                  {language.label}*/}
+              {/*                </CommandItem>*/}
+              {/*              ))}*/}
+              {/*            </CommandGroup>*/}
+              {/*          </Command>*/}
+              {/*        </PopoverContent>*/}
+              {/*      </Popover>*/}
+              {/*      <FormMessage />*/}
+              {/*    </FormItem>*/}
+              {/*  )}*/}
+              {/*/>*/}
               <FormField
                 control={form.control}
                 name="websiteName"
