@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import AvatarPhoto from "@/public/assests/avatar2.png"
 import { FormValues } from "@/schema/investorFormSchema"
 import { useSession } from "next-auth/react"
-
+import Link from "next/link"
 import {
   Card,
   CardContent,
@@ -17,12 +17,12 @@ import {
 import { FormType } from "@/components/FounderForm"
 
 type DetailForm = FormType | FormValues
-type PropType = DetailForm & { here: string }
+type PropType = DetailForm & { here: string ,companyName:string,comDescription:string}
 interface OwnProps {}
+type CombinedType =FormType | FormValues
 type Props = OwnProps & {
-  personData:
-    | (FormType & { here: string})
-    | (FormValues & { here: string})
+  personData: CombinedType & { here: string ,companyName:string,comDescription:string}
+
 }
 export const DashboardContent: FunctionComponent<Props> = ({ personData }) => {
   const { data: session, status } = useSession()
@@ -61,7 +61,7 @@ export const DashboardContent: FunctionComponent<Props> = ({ personData }) => {
                 <div className="hyphens-auto break-words">
                   Gender: {personData.gender}
                 </div>
-                <div>Linkedin id:{personData.linkedIn}</div>
+               <Link href={personData.linkedIn} target="_blank" > <div>Linkedin id:{personData.linkedIn}</div></Link>
                 <div>Phone number: {personData.phone}</div>
                 <div>Country: {personData.country}</div>
                 <div>Sector: {personData.sector}</div>
@@ -72,14 +72,13 @@ export const DashboardContent: FunctionComponent<Props> = ({ personData }) => {
           </div>
         </CardContent>
       </Card>
-      <Card className="lg:col-span-1">
+      {personData.here == "Founder" && <Card className="lg:col-span-1">
         <CardHeader>
           <CardTitle>My Startup</CardTitle>
-          <CardDescription>Invested Startup</CardDescription>
-          <CardTitle>My Networks</CardTitle>
-          <CardDescription>Founders</CardDescription>
+          <CardDescription>{personData.companyName}</CardDescription>
+          <CardDescription>{personData.comDescription}</CardDescription>
         </CardHeader>
-      </Card>
+      </Card>}
     </>
   )
 }
